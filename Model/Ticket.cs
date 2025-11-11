@@ -8,12 +8,8 @@ namespace Model
 {
     public class Ticket : BaseEntity
     {
-        public decimal TicketPrice { get; set; }
-
-        public int UserId { get; set; }
+        public int TicketPrice { get; set; }
         public User User { get; set; }
-
-        public int ScreeningId { get; set; }
         public MovieScreening Screening { get; set; }
     }
 }

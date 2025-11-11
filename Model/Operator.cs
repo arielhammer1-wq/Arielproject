@@ -8,7 +8,7 @@ namespace Model
 {
     public class Operator : User
     {
-        public string Role { get; set; }
+        public  Role RoleName { get; set; }
     }
 
 }

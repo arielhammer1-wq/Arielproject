@@ -10,8 +10,6 @@ namespace Model
     {
         public string HallName { get; set; }
         public int AmountOfSeats { get; set; }
-        public int TheaterId { get; set; }
-
         public Theater Theater { get; set; }
     }
 }

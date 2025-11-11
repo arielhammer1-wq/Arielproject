@@ -11,8 +11,6 @@ namespace Model
     {
         public string ArtistName { get; set; }
         public int StartingYear { get; set; }
-        public string Role { get; set; }
-
-        public ActorsInMovieList ActorsInMovies { get; set; } = new ActorsInMovieList();
+        public Role ArtistRole { get; set; }
     } 
 }

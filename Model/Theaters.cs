@@ -12,7 +12,7 @@ namespace Model
         public string Address { get; set; }
         public int StreetNumber { get; set; }
 
-        public MovieHallList MovieHalls { get; set; } = new MovieHallList();
-        public CityList Cities { get; set; } = new CityList();
+        public City CityCode { get; set; }
+
     }
 }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class ActorsInMovie : BaseEntity
+    public class Gender:BaseEntity
     {
-        public Artist Artist { get; set; }
-        public Movie Movie { get; set; }
+        public string GenderName{ get; set; }
     }
 }

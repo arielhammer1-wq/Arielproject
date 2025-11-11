@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Model
 {
-    public class ActorsInMovie : BaseEntity
+    public class AgeRating:BaseEntity
     {
-        public Artist Artist { get; set; }
-        public Movie Movie { get; set; }
+        public string AgeRatingName{ get; set; }
     }
 }

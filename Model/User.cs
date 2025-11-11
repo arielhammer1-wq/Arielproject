@@ -11,7 +11,5 @@ namespace Model
         public string Username { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
-
-        public TicketList Tickets { get; set; } = new TicketList();
     }
 }
