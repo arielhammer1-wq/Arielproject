@@ -1,0 +1,33 @@
+﻿using Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ViewModel
+{
+    public class AgeRatingDB : BaseDB
+    {
+        public AgeRatingList SelectAll()
+        {
+            command.CommandText = "SELECT * FROM AgeRating";
+            AgeRatingList list = new AgeRatingList(base.Select());
+            return list;
+        }
+
+        protected override BaseEntity CreateModel(BaseEntity entity)
+        {
+            AgeRating ar = entity as AgeRating;
+            ar.Id = Convert.ToInt32(reader["agerated"]);
+            ar.AgeRatingName = reader["AgeRatingName"].ToString();
+            base.CreateModel(entity);
+            return entity;
+        }
+
+        protected override BaseEntity NewEntity()
+        {
+            return new AgeRating();
+        }
+    }
+}

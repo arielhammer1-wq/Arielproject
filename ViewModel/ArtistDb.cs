@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class ArtistDB : BaseDB
+    public class ArtistsDB : BaseDB
     {
         public ArtistList SelectAll()
         {
@@ -19,16 +19,22 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Artist a = entity as Artist;
+            a.Id = Convert.ToInt32(reader["Id"]);
             a.ArtistName = reader["ArtistName"].ToString();
             a.StartingYear = Convert.ToInt32(reader["StartingYear"]);
-            a.Role = reader["role"].ToString();
-            return base.CreateModel(entity);
+
+            a.ArtistRole = new Role
+            {
+                Id = Convert.ToInt32(reader["role"])
+            };
+
+            base.CreateModel(entity);
+            return entity;
         }
 
-        protected override  BaseEntity NewEntity()
+        protected override BaseEntity NewEntity()
         {
             return new Artist();
         }
     }
-
 }
