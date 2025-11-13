@@ -9,8 +9,5 @@ namespace Model
     public class City : BaseEntity
     {
         public string CityName { get; set; }
-
-        public int TheaterId { get; set; }
-        public Theater Theater { get; set; }
     }
 }

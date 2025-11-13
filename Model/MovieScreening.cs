@@ -9,12 +9,10 @@ namespace Model
 {
     public class MovieScreening : BaseEntity
     {
-        public int HallId { get; set; }
+        public MovieHall HallId { get; set; }
         public DateTime TimeOfScreening { get; set; }
-        public string MovieScreened { get; set; }
 
         public Movie Movie { get; set; }
 
-        public TicketList Tickets { get; set; } = new TicketList();
     }
 }
