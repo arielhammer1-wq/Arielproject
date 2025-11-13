@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class UserDB : BaseDB
+    public class UsersDB : BaseDB
     {
         public UserList SelectAll()
         {
@@ -19,10 +19,12 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             User u = entity as User;
+            u.Id = Convert.ToInt32(reader["id"]);
             u.Username = reader["username"].ToString();
             u.Pass = reader["pass"].ToString();
             u.Email = reader["Email"].ToString();
-            return base.CreateModel(entity);
+            base.CreateModel(entity);
+            return entity;
         }
 
         protected override BaseEntity NewEntity()

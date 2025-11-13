@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class TicketDB : BaseDB
+    public class TicketsDB : BaseDB
     {
         public TicketList SelectAll()
         {
@@ -19,10 +19,18 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Ticket t = entity as Ticket;
-            t.TicketPrice = Convert.ToDecimal(reader["TicketPrice"]);
-            t.UserId = Convert.ToInt32(reader["UserId"]);
-            t.ScreeningId = Convert.ToInt32(reader["ScreeningId"]);
-            return base.CreateModel(entity);
+            t.Id = Convert.ToInt32(reader["id"]);
+            t.TicketPrice = Convert.ToInt32(reader["TicketPrice"]);
+            t.User = new User
+            {
+                Id = Convert.ToInt32(reader["UserId"])
+            };
+            t.Screening = new MovieScreening
+            {
+                Id = Convert.ToInt32(reader["ScreeningId"])
+            };
+            base.CreateModel(entity);
+            return entity;
         }
 
         protected override BaseEntity NewEntity()
@@ -30,5 +38,4 @@ namespace ViewModel
             return new Ticket();
         }
     }
-
 }

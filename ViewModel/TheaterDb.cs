@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class TheaterDB : BaseDB
+    public class TheatersDB : BaseDB
     {
         public TheaterList SelectAll()
         {
@@ -19,10 +19,16 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Theater t = entity as Theater;
+            t.Id = Convert.ToInt32(reader["id"]);
             t.NameOfTheater = reader["NameOfTheater"].ToString();
             t.Address = reader["Address"].ToString();
             t.StreetNumber = Convert.ToInt32(reader["StreetNumber"]);
-            return base.CreateModel(entity);
+            t.CityCode = new City
+            {
+                Id = Convert.ToInt32(reader["Citycode"])
+            };
+            base.CreateModel(entity);
+            return entity;
         }
 
         protected override BaseEntity NewEntity()

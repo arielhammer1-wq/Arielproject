@@ -19,9 +19,16 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             ActorsInMovie a = entity as ActorsInMovie;
-            a.ArtistId = Convert.ToInt32(reader["ArtistId"]);
-            a.MovieId = Convert.ToInt32(reader["MovieId"]);
-            return base.CreateModel(entity);
+            a.Artist = new Artist
+            {
+                Id = Convert.ToInt32(reader["ArtistId"])
+            };
+            a.Movie = new Movie
+            {
+                Id = Convert.ToInt32(reader["MovieId"])
+            };
+            base.CreateModel(entity);
+            return entity;
         }
 
         protected override BaseEntity NewEntity()
@@ -29,5 +36,4 @@ namespace ViewModel
             return new ActorsInMovie();
         }
     }
-
 }

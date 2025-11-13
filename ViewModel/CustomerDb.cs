@@ -7,16 +7,30 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class CustomerDB : UserDB
+    public class CustomersDB : BaseDB
     {
+        public CustomerList SelectAll()
+        {
+            command.CommandText = "SELECT * FROM Customers";
+            CustomerList list = new CustomerList(base.Select());
+            return list;
+        }
+
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Customer c = entity as Customer;
-            base.CreateModel(c);
+            c.Id = Convert.ToInt32(reader["id"]);
+            c.Username = reader["username"].ToString();
+            c.Pass = reader["pass"].ToString();
+            c.Email = reader["email"].ToString();
             c.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-            c.Gender = reader["gender"].ToString();
+            c.CustomerGender = new Gender
+            {
+                Id = Convert.ToInt32(reader["gender"])
+            };
             c.RepeatCustomer = Convert.ToBoolean(reader["RepeatCustomer"]);
-            return c;
+            base.CreateModel(entity);
+            return entity;
         }
 
         protected override BaseEntity NewEntity()
@@ -24,5 +38,4 @@ namespace ViewModel
             return new Customer();
         }
     }
-
 }

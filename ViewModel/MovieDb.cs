@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class MovieDB : BaseDB
+    public class MoviesDB : BaseDB
     {
         public MovieList SelectAll()
         {
@@ -19,12 +19,20 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Movie m = entity as Movie;
+            m.Id = Convert.ToInt32(reader["Id"]);
             m.MovieName = reader["MovieName"].ToString();
             m.MovieLength = Convert.ToInt32(reader["MovieLength(min)"]);
-            m.AgeRating = reader["AgeRating"].ToString();
+            m.AgeRatingName = new AgeRating
+            {
+                Id = Convert.ToInt32(reader["AgeRating"])
+            };
             m.ReleaseDate = Convert.ToDateTime(reader["ReleaseDate"]);
-            m.GenreId = Convert.ToInt32(reader["GenreID"]);
-            return base.CreateModel(entity);
+            m.Genre = new MovieGenre
+            {
+                Id = Convert.ToInt32(reader["Genre"])
+            };
+            base.CreateModel(entity);
+            return entity;
         }
 
         protected override BaseEntity NewEntity()
@@ -32,5 +40,4 @@ namespace ViewModel
             return new Movie();
         }
     }
-
 }

@@ -7,22 +7,27 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class MovieHallDB : BaseDB
+    public class MovieHallsDB : BaseDB
     {
         public MovieHallList SelectAll()
         {
-            command.CommandText = "SELECT * FROM MovieHalls";
+            command.CommandText = "SELECT * FROM movieHalls";
             MovieHallList list = new MovieHallList(base.Select());
             return list;
         }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
-            MovieHall m = entity as MovieHall;
-            m.HallName = reader["HallName"].ToString();
-            m.AmountOfSeats = Convert.ToInt32(reader["AmountOfSeats"]);
-            m.TheaterId = Convert.ToInt32(reader["theaterid"]);
-            return base.CreateModel(entity);
+            MovieHall h = entity as MovieHall;
+            h.Id = Convert.ToInt32(reader["id"]);
+            h.HallName = reader["HallName"].ToString();
+            h.AmountOfSeats = Convert.ToInt32(reader["AmountOfSeats"]);
+            h.Theater = new Theater
+            {
+                Id = Convert.ToInt32(reader["theaterid"])
+            };
+            base.CreateModel(entity);
+            return entity;
         }
 
         protected override BaseEntity NewEntity()
@@ -30,5 +35,4 @@ namespace ViewModel
             return new MovieHall();
         }
     }
-
 }
