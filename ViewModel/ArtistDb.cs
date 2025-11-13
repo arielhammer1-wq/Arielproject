@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class ArtistsDB : BaseDB
+    public class ArtistDB : BaseDB
     {
         public ArtistList SelectAll()
         {
             command.CommandText = "SELECT * FROM Artists";
             ArtistList list = new ArtistList(base.Select());
             return list;
+        }
+        public static Artist SelectById(int id)
+        {
+            ArtistDB db = new ArtistDB();
+            ArtistList list = db.SelectAll();
+            Artist g = list.Find(item => item.Id == id);
+            return g;
         }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
@@ -22,11 +29,8 @@ namespace ViewModel
             a.Id = Convert.ToInt32(reader["Id"]);
             a.ArtistName = reader["ArtistName"].ToString();
             a.StartingYear = Convert.ToInt32(reader["StartingYear"]);
+            a.ArtistRole = RoleDB.SelectById(int.Parse(reader["role"].ToString()));
 
-            a.ArtistRole = new Role
-            {
-                Id = Convert.ToInt32(reader["role"])
-            };
 
             base.CreateModel(entity);
             return entity;

@@ -15,6 +15,13 @@ namespace ViewModel
             GenderList list = new GenderList(base.Select());
             return list;
         }
+        public static Gender SelectById(int id)
+        {
+            GenderDB db = new GenderDB();
+            GenderList list = db.SelectAll();
+            Gender g = list.Find(item => item.Id == id);
+            return g;
+        }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {

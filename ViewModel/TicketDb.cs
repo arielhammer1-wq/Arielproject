@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class TicketsDB : BaseDB
+    public class TicketDB : BaseDB
     {
         public TicketList SelectAll()
         {

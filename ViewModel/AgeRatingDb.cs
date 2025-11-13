@@ -15,6 +15,13 @@ namespace ViewModel
             AgeRatingList list = new AgeRatingList(base.Select());
             return list;
         }
+        public static AgeRating SelectById(int id)
+        {
+            AgeRatingDB db = new AgeRatingDB();
+            AgeRatingList list = db.SelectAll();
+            AgeRating g = list.Find(item => item.Id == id);
+            return g;
+        }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {

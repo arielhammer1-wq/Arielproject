@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class MovieScreeningsDB : BaseDB
+    public class MovieScreeningDB : BaseDB
     {
         public MovieScreeningList SelectAll()
         {

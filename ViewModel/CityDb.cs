@@ -20,10 +20,11 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             City c = entity as City;
-            c.Id = Convert.ToInt32(reader["id"]);
+            c.Id = Convert.ToInt32(reader["Id"]);
             c.CityName = reader["CityName"].ToString();
-            return base.CreateModel(entity);
+            return c;
         }
+
 
         protected override BaseEntity NewEntity()
         {

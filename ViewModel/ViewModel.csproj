@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Arielproject\Arielproject.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>
 

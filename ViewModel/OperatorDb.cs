@@ -13,7 +13,7 @@ namespace ViewModel
         {
             Operator o = entity as Operator;
             base.CreateModel(o);
-            o.Role = reader["role"].ToString();
+            //o.RoleName = RoleDB.SelectById((int)reader["role"].ToString());
             return o;
         }
 
