@@ -15,6 +15,13 @@ namespace ViewModel
             MovieHallList list = new MovieHallList(base.Select());
             return list;
         }
+        public static MovieHall SelectById(int id)
+        {
+            MovieHallDB db = new MovieHallDB();
+            MovieHallList list = db.SelectAll();
+            MovieHall g = list.Find(item => item.Id == id);
+            return g;
+        }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {

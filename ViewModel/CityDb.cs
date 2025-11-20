@@ -30,5 +30,12 @@ namespace ViewModel
         {
             return new City();
         }
+        public static City SelectById(int id)
+        {
+            CityDB db = new CityDB();
+            CityList list = db.SelectAll();
+            City g = list.Find(item => item.Id == id);
+            return g;
+        }
     }
 }

@@ -21,12 +21,9 @@ namespace ViewModel
             Theater t = entity as Theater;
             t.Id = Convert.ToInt32(reader["id"]);
             t.NameOfTheater = reader["NameOfTheater"].ToString();
-            t.Address = reader["Address"].ToString();
+            t.Address = reader["Adress"].ToString();
             t.StreetNumber = Convert.ToInt32(reader["StreetNumber"]);
-            t.CityCode = new City
-            {
-                Id = Convert.ToInt32(reader["Citycode"])
-            };
+            t.CityCode = CityDB.SelectById(int.Parse(reader["Citycode"].ToString()));
             base.CreateModel(entity);
             return entity;
         }

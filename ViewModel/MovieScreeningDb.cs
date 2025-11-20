@@ -15,20 +15,23 @@ namespace ViewModel
             MovieScreeningList list = new MovieScreeningList(base.Select());
             return list;
         }
+        public static MovieScreening SelectById(int id)
+        {
+            MovieScreeningDB db = new MovieScreeningDB();
+            MovieScreeningList list = db.SelectAll();
+            MovieScreening g = list.Find(item => item.Id == id);
+            return g;
+        }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             MovieScreening s = entity as MovieScreening;
             s.Id = Convert.ToInt32(reader["id"]);
-            s.HallId = new MovieHall
-            {
-                Id = Convert.ToInt32(reader["hallid"])
-            };
+            s.HallId = MovieHallDB.SelectById(int.Parse(reader["hallid"].ToString()));
+
+
             s.TimeOfScreening = Convert.ToDateTime(reader["TimeOfScreening"]);
-            s.Movie = new Movie
-            {
-                Id = Convert.ToInt32(reader["MovieScreened"])
-            };
+            s.Movie =MovieDB.SelectById(int.Parse(reader["MovieScreened"].ToString()));
             base.CreateModel(entity);
             return entity;
         }

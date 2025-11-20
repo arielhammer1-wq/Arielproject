@@ -23,12 +23,12 @@ namespace Test
             //Console.WriteLine(new string('-', 40));
 
             //// 🔹 Actor
-            ActorsInMovieDB adb = new();
-            ActorsInMovieList aList = adb.SelectAll();
-            Console.WriteLine("Actors found: " + aList.Count);
-            foreach (ActorsInMovie a in aList)
-                Console.WriteLine($"{a.Id}: {a.Artist.ArtistName}");
-            Console.WriteLine(new string('-', 40));
+            //ActorsInMovieDB adb = new();
+            //ActorsInMovieList aList = adb.SelectAll();
+            //Console.WriteLine("Actors found: " + aList.Count);
+            //foreach (ActorsInMovie a in aList)
+            //    Console.WriteLine($"{a.Id}: {a.Artist.ArtistName}");
+            //Console.WriteLine(new string('-', 40));
 
             //// 🔹 ActorsInMovie
             //ActorsInMovieDB aimdb = new();
@@ -47,20 +47,20 @@ namespace Test
             //Console.WriteLine(new string('-', 40));
 
             ////// 🔹 Screening
-            ////MovieScreening sdb = new();
-            ////MovieScreening sList = sdb.SelectAll();
-            ////Console.WriteLine("Screenings found: " + sList.Count);
-            ////foreach (MovieScreening s in sList)
-            ////    Console.WriteLine($"MovieId: {s.Movie}, TheaterId: {s.Id}, Time: {s.TimeOfScreening}");
-            ////Console.WriteLine(new string('-', 40));
+            //MovieScreeningDB sdb = new();
+            //MovieScreeningList sList = sdb.SelectAll();
+            //Console.WriteLine("Screenings found: " + sList.Count);
+            //foreach (MovieScreening s in sList)
+            //    Console.WriteLine($"MovieId: {s.Movie}, HallId: {s.Id}, Time: {s.TimeOfScreening}");
+            //Console.WriteLine(new string('-', 40));
 
             //// 🔹 Ticket
-            //TicketDB tkdb = new();
-            //TicketList tkList = tkdb.SelectAll();
-            //Console.WriteLine("Tickets found: " + tkList.Count);
-            //foreach (Ticket tk in tkList)
-            //    Console.WriteLine($"TicketId: {tk.Id}, ScreeningId: {tk.Screening}, Price: {tk.TicketPrice}");
-            //Console.WriteLine(new string('-', 40));
+            TicketDB tkdb = new();
+            TicketList tkList = tkdb.SelectAll();
+            Console.WriteLine("Tickets found: " + tkList.Count);
+            foreach (Ticket tk in tkList)
+            Console.WriteLine($"TicketId: {tk.Id}, ScreeningId: {tk.Screening.Id}, Price: {tk.TicketPrice}");
+            Console.WriteLine(new string('-', 40));
 
             //// 🔹 Customer
             //CustomerDB cudb = new();

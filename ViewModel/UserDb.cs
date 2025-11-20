@@ -15,6 +15,13 @@ namespace ViewModel
             UserList list = new UserList(base.Select());
             return list;
         }
+        public static User SelectById(int id)
+        {
+            UserDB db = new UserDB();
+            UserList list = db.SelectAll();
+            User g = list.Find(item => item.Id == id);
+            return g;
+        }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {

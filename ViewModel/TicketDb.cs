@@ -15,20 +15,21 @@ namespace ViewModel
             TicketList list = new TicketList(base.Select());
             return list;
         }
+        public static Ticket SelectById(int id)
+        {
+            TicketDB db = new TicketDB();
+            TicketList list = db.SelectAll();
+            Ticket g = list.Find(item => item.Id == id);
+            return g;
+        }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Ticket t = entity as Ticket;
             t.Id = Convert.ToInt32(reader["id"]);
             t.TicketPrice = Convert.ToInt32(reader["TicketPrice"]);
-            t.User = new User
-            {
-                Id = Convert.ToInt32(reader["UserId"])
-            };
-            t.Screening = new MovieScreening
-            {
-                Id = Convert.ToInt32(reader["ScreeningId"])
-            };
+            t.User =UserDB.SelectById(int.Parse(reader["Userid"].ToString()));
+            t.Screening = MovieScreeningDB.SelectById(int.Parse(reader["Screeningid"].ToString()));
             base.CreateModel(entity);
             return entity;
         }

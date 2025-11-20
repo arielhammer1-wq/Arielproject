@@ -8,6 +8,7 @@ namespace Model
 {
     public class Role : BaseEntity
     {
-        public string Rolename { get; set; }
+        public Role RoleName { get; set; }
     }
+
 }

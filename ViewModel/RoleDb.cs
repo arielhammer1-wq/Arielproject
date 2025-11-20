@@ -27,7 +27,8 @@ namespace ViewModel
         {
             Role r = entity as Role;
             r.Id = Convert.ToInt32(reader["Id"]);
-            r.Rolename = reader["RoleName"].ToString();
+            r.RoleName = RoleDB.SelectById(int.Parse(reader["RoleName"].ToString()));
+
             base.CreateModel(entity);
             return entity;
         }
