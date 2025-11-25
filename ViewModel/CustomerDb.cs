@@ -9,7 +9,7 @@ namespace ViewModel
 {
     public class CustomerDB : UserDB
     {
-        public CustomerList SelectAll()
+        public CustomerList  SelectAll()
         {
             command.CommandText = "SELECT Customers.DateOfBirth, Customers.id, " +
                 "Customers.gender, Customers.RepeatCustomer, Users.username, Users.Email," +
