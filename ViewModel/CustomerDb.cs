@@ -23,7 +23,7 @@ namespace ViewModel
         {
             Customer c = entity as Customer;
             c.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-            c.CustomerGender = GenderDB.SelectById(int.Parse(reader["gender"].ToString()));
+            c.CustomerGender = GenderDB.SelectById(Convert.ToInt32(reader["gender"]));
             c.RepeatCustomer = Convert.ToBoolean(reader["RepeatCustomer"]);
             base.CreateModel(entity);
             return entity;

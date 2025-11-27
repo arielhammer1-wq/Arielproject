@@ -54,7 +54,17 @@ namespace ViewModel
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            Artist artist = entity as Artist;
+            if (artist != null)
+            {
+                string sqlStr = "UPDATE Artists SET ArtistName=@AName,StartingYear=@SYear,role=@role WHERE ID=@id";
+                cmd.CommandText = sqlStr;
+
+                cmd.Parameters.Add(new OleDbParameter("@AName", artist.ArtistName));
+                cmd.Parameters.Add(new OleDbParameter("@SYear", artist.StartingYear));
+                cmd.Parameters.Add(new OleDbParameter("@role", artist.ArtistRole.Id));
+                cmd.Parameters.Add(new OleDbParameter("@id", artist.Id));
+            }
         }
     }
 }

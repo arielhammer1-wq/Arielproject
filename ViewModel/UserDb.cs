@@ -52,7 +52,17 @@ namespace ViewModel
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            User u = entity as User;
+            if (u != null)
+            {
+                string sqlStr = "UPDATE Users SET username=@userName ,pass=@pass,Email=@Email WHERE ID=@id";
+                cmd.CommandText = sqlStr;
+
+                cmd.Parameters.Add(new OleDbParameter("@userName", u.Username));
+                cmd.Parameters.Add(new OleDbParameter("@pass", u.Pass));
+                cmd.Parameters.Add(new OleDbParameter("@Email", u.Email));
+                cmd.Parameters.Add(new OleDbParameter("@id", u.Id));
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Test
     {
          static void Main(string[] args)
         {
-            ////// 🔹 City
+            //// 🔹 City
             //CityDB cdb = new();
             //CityList cList = cdb.SelectAll();
             //Console.WriteLine("Cities found: " + cList.Count);
@@ -19,12 +19,24 @@ namespace Test
             //Console.WriteLine($"{x} rows were updated");
             //Console.WriteLine(new string('-', 40));
 
+            //🔹 User
+            //UserDB udb = new();
+            //UserList uList = udb.SelectAll();
+            //Console.WriteLine("users found " + uList.Count);
+            //foreach (User u in uList)
+            //    Console.WriteLine($"{u.Id}: {u.Username}, {u.Pass}, {u.Email}");
+
+            //User UserToUpdate = uList[0];
+            //UserToUpdate.Username = "Arielbomboclat";
+            //udb.Update(UserToUpdate);
+            //int temp = udb.SaveChanges();
+            //Console.WriteLine($"{temp} rows were updated");
+            //Console.WriteLine(new string('-', 40));
 
             ////// 🔹 Movie
             //MovieDB mdb = new();
             //MovieList mList = mdb.SelectAll();
             //Console.WriteLine("Movies found: " + mList.Count);
-
             //foreach (Movie m in mList)
             //    Console.WriteLine($"{m.Id}: {m.MovieName}, {m.MovieLength}, {m.AgeRatingName}, {m.ReleaseDate}, {m.Genre}");
 
@@ -104,20 +116,37 @@ namespace Test
             //Console.WriteLine(new string('-', 40));
 
             //////// 🔹 Customer
-            CustomerDB cudb = new();
-            CustomerList cuList = cudb.SelectAll();
-            Console.WriteLine("Customers found: " + cuList.Count);
-            foreach (Customer cu in cuList)
-                Console.WriteLine($"customer id is {cu.Id}: {cu.Username},{cu.CustomerGender}");
-            Customer CustomerToUpdate = cuList[0];
+            //CustomerDB cudb = new();
+            //CustomerList cuList = cudb.SelectAll();
+            //Console.WriteLine("Customers found: " + cuList.Count);
+            //foreach (Customer cu in cuList)
+            //    Console.WriteLine($"customer id is {cu.Id}: {cu.Username},{cu.CustomerGender.GenderName}, is a Repeat Customer?  {cu.RepeatCustomer}");
+            //Customer CustomerToUpdate = cuList[0];
 
-            CustomerToUpdate.DateOfBirth = new DateTime(2024, 2, 1);
-            CustomerToUpdate.CustomerGender = GenderDB.SelectById(1);
-            CustomerToUpdate.RepeatCustomer = true;
+            //CustomerToUpdate.DateOfBirth = new DateTime(2024, 2, 1);
+            //CustomerToUpdate.CustomerGender = GenderDB.SelectById(1);
+            //CustomerToUpdate.RepeatCustomer = true;
 
-            cudb.Update(CustomerToUpdate);
-            int x = cudb.SaveChanges();
-            Console.WriteLine($"{x} rows were updated");
+            //cudb.Update(CustomerToUpdate);
+            //int customerC = cudb.SaveChanges();
+            //Console.WriteLine($"{customerC} rows were updated");
+            //Console.WriteLine(new string('-', 40));
+
+            //////// 🔹 Artist
+            ArtistDB Adb = new();
+            ArtistList AList = Adb.SelectAll();
+            Console.WriteLine("Artists found: " + AList.Count);
+            foreach (Artist artist in AList)
+                Console.WriteLine($"Artist id is {artist.Id}: {artist.ArtistName},{artist.StartingYear}{artist.ArtistRole}");
+            Artist ArtistToUpdate = AList[0];
+
+            ArtistToUpdate.ArtistName = "Pdidi";
+            ArtistToUpdate.StartingYear = 2025;
+            ArtistToUpdate.ArtistRole = RoleDB.SelectById(1);
+
+            Adb.Update(ArtistToUpdate);
+            int ArtistC = Adb.SaveChanges();
+            Console.WriteLine($"{ArtistC} rows were updated");
             Console.WriteLine(new string('-', 40));
 
             //MovieGenreDB mgdb = new();

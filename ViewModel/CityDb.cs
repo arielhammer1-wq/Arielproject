@@ -54,7 +54,7 @@ namespace ViewModel
             City C = entity as City;
             if (C != null)
             {
-                string sqlStr = "UPDATE Movies SET CityName=@cName WHERE ID=@id";
+                string sqlStr = "UPDATE Citys SET CityName=@cName WHERE ID=@id";
                 cmd.CommandText = sqlStr; 
 
                 cmd.Parameters.Add(new OleDbParameter("@cName", C.CityName));

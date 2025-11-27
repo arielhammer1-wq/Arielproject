@@ -27,7 +27,7 @@ namespace ViewModel
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Gender g = entity as Gender;
-            g.Id = Convert.ToInt32(reader["genderid"]);
+            g.Id = Convert.ToInt32(reader["id"]);
             g.GenderName = reader["GenderName"].ToString();
             base.CreateModel(entity);
             return entity;
@@ -53,7 +53,7 @@ namespace ViewModel
             City c= entity as City;
             if (c != null)
             {
-                string sqlStr = $"UPDATE CityTbl SET CityName=@cName WHERE ID=@id";
+                string sqlStr = $"UPDATE Gender SET GenderName=@cName WHERE ID=@id";
                 cmd.CommandText = sqlStr;
                 cmd.Parameters.Add(new OleDbParameter("@cName", c.CityName));
                 cmd.Parameters.Add(new OleDbParameter("@id", c.Id));
