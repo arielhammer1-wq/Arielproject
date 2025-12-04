@@ -7,17 +7,49 @@ namespace Test
          static void Main(string[] args)
         {
             //// 🔹 City
-            //CityDB cdb = new();
+            //Console.WriteLine("City:");
+
+            //CityDB cdb = new CityDB();
             //CityList cList = cdb.SelectAll();
-            //Console.WriteLine("Cities found: " + cList.Count);
+
             //foreach (City c in cList)
-            //    Console.WriteLine(c.CityName);
-            //City cityToUpdate = cList[0];
-            //cityToUpdate.CityName = "omerland";
-            //cdb.Update(cityToUpdate);
+            //    Console.WriteLine($"{c.Id}: {c.CityName}");
+            //Console.WriteLine();
+
+            //City cInsert = new City();
+            //cInsert.CityName = "NewCityLand";
+            //cdb.Insert(cInsert);
+
             //int x = cdb.SaveChanges();
-            //Console.WriteLine($"{x} rows were updated");
-            //Console.WriteLine(new string('-', 40));
+            //Console.WriteLine($"{x} rows were inserted");
+
+            //foreach (City c in cList)
+            //    Console.WriteLine($"{c.Id}: {c.CityName}");
+            //Console.WriteLine();
+
+
+            //City cityToUpdate = cList.Last();
+            //cityToUpdate.CityName = "UpdatedCity";
+            //cdb.Update(cityToUpdate);
+
+            //int y = cdb.SaveChanges();
+            //Console.WriteLine($"{y} rows were updated");
+
+            //foreach (City c in cList)
+            //    Console.WriteLine($"{c.Id}: {c.CityName}");
+            //Console.WriteLine();
+
+
+            //City cityToDelete = cList.Last();
+            //cdb.Delete(cityToDelete);
+
+            //int z = cdb.SaveChanges();
+            //Console.WriteLine($"{z} rows were deleted");
+
+            //foreach (City c in cList)
+            //    Console.WriteLine($"{c.Id}: {c.CityName}");
+            //Console.WriteLine();
+
 
             //🔹 User
             //UserDB udb = new();
@@ -62,13 +94,59 @@ namespace Test
             //    Console.WriteLine($"{a.Id}: {a.Artist.ArtistName}");
             //Console.WriteLine(new string('-', 40));
 
-            //////// 🔹 ActorsInMovie
-            //ActorsInMovieDB aimdb = new();
-            //ActorsInMovieList aimList = aimdb.SelectAll();
-            //Console.WriteLine("ActorsInMovie records found: " + aimList.Count);
+
+            //////// 🔹 ActorsinMovie
+            Console.WriteLine("ActorsInMovie:");
+
+            ActorsInMovieDB aimdb = new ActorsInMovieDB();
+            ActorsInMovieList aimList = aimdb.SelectAll();
+
+            foreach (ActorsInMovie aim in aimList)
+                Console.WriteLine($"MovieId: {aim.M.Id}, ActorId: {aim.A.Id}");
+            Console.WriteLine();
+
+
+            // 🔹 Insert
+            //ActorsInMovie aimInsert = new ActorsInMovie();
+            //aimInsert.M = MovieDB.SelectById(1);      // example movie
+            //aimInsert.A = ArtistDB.SelectById(1);    // example actor
+            //aimdb.Insert(aimInsert);
+
+            //int x = aimdb.SaveChanges();
+            //Console.WriteLine($"{x} rows were inserted");
+
             //foreach (ActorsInMovie aim in aimList)
-            //    Console.WriteLine($"MovieId: {aim.Movie}, ActorId: {aim.Artist}");
-            //Console.WriteLine(new string('-', 40));
+            //    Console.WriteLine($"MovieId: {aim.M.Id}, ActorId: {aim.A.Id}");
+            //Console.WriteLine();
+
+
+            // 🔹 Update(change the actor for the last movie - actor link)
+            //ActorsInMovie aimUpdate = aimList.Last();
+            //aimUpdate.M = MovieDB.SelectById(1);
+            //aimUpdate.A = ArtistDB.SelectById(7);    // new actor
+            //aimdb.Update(aimUpdate);
+
+            //int k = aimdb.SaveChanges();
+            //Console.WriteLine($"{k} rows were updated");
+
+            //foreach (ActorsInMovie aim in aimList)
+            //    Console.WriteLine($"MovieId: {aim.M.Id}, ActorId: {aim.A.Id}");
+            //Console.WriteLine();
+
+
+            //🔹 Delete
+            //ActorsInMovie aimDelete = aimList.Last();
+            //aimdb.Delete(aimDelete);
+
+            //int z = aimdb.SaveChanges();
+            //Console.WriteLine($"{z} rows were deleted");
+
+            //foreach (ActorsInMovie aim in aimList)
+            //    Console.WriteLine($"MovieId: {aim.M.Id}, ActorId: {aim.A.Id}");
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine();
+
 
             ////// 🔹 Theater
             //TheaterDB tdb = new();
@@ -133,21 +211,21 @@ namespace Test
             //Console.WriteLine(new string('-', 40));
 
             //////// 🔹 Artist
-            ArtistDB Adb = new();
-            ArtistList AList = Adb.SelectAll();
-            Console.WriteLine("Artists found: " + AList.Count);
-            foreach (Artist artist in AList)
-                Console.WriteLine($"Artist id is {artist.Id}: {artist.ArtistName},{artist.StartingYear}{artist.ArtistRole}");
-            Artist ArtistToUpdate = AList[0];
+            //ArtistDB Adb = new();
+            //ArtistList AList = Adb.SelectAll();
+            //Console.WriteLine("Artists found: " + AList.Count);
+            //foreach (Artist artist in AList)
+            //    Console.WriteLine($"Artist id is {artist.Id}: {artist.ArtistName},{artist.StartingYear}{artist.ArtistRole}");
+            //Artist ArtistToUpdate = AList[0];
 
-            ArtistToUpdate.ArtistName = "Pdidi";
-            ArtistToUpdate.StartingYear = 2025;
-            ArtistToUpdate.ArtistRole = RoleDB.SelectById(1);
+            //ArtistToUpdate.ArtistName = "Pdidi";
+            //ArtistToUpdate.StartingYear = 2025;
+            //ArtistToUpdate.ArtistRole = RoleDB.SelectById(1);
 
-            Adb.Update(ArtistToUpdate);
-            int ArtistC = Adb.SaveChanges();
-            Console.WriteLine($"{ArtistC} rows were updated");
-            Console.WriteLine(new string('-', 40));
+            //Adb.Update(ArtistToUpdate);
+            //int ArtistC = Adb.SaveChanges();
+            //Console.WriteLine($"{ArtistC} rows were updated");
+            //Console.WriteLine(new string('-', 40));
 
             //MovieGenreDB mgdb = new();
             //MovieGenreList mgList = mgdb.SelectAll();
