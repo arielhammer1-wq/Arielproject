@@ -28,7 +28,7 @@ namespace ViewModel
             }
         }
 
-        protected override void CreateInsertdSQL(BaseEntity entity, OleDbCommand cmd)
+        protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
         {
             ActorsInMovie a = entity as ActorsInMovie;
             if (a != null)

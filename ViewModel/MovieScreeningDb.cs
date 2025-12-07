@@ -13,61 +13,51 @@ namespace ViewModel
         public MovieScreeningList SelectAll()
         {
             command.CommandText = "SELECT * FROM movieScreenings";
-            MovieScreeningList list = new MovieScreeningList(base.Select());
-            return list;
+            return new MovieScreeningList(base.Select());
         }
         public static MovieScreening SelectById(int id)
         {
             MovieScreeningDB db = new MovieScreeningDB();
             MovieScreeningList list = db.SelectAll();
-            MovieScreening g = list.Find(item => item.Id == id);
-            return g;
+            return list.Find(ms => ms.Id == id);
+        }
+
+        protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            MovieScreening s = entity as MovieScreening;
+            cmd.CommandText = "INSERT INTO movieScreenings (MovieScreened, hallid, TimeOfScreening) VALUES (@movie,@hall,@time)";
+            cmd.Parameters.Add(new OleDbParameter("@movie", s.MovieScreened));
+            cmd.Parameters.Add(new OleDbParameter("@hall", s.HallId));
+            cmd.Parameters.Add(new OleDbParameter("@time", s.TimeOfScreening));
+        }
+
+        protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            MovieScreening s = entity as MovieScreening;
+            cmd.CommandText = "UPDATE movieScreenings SET MovieScreened=@movie, hallid=@hall, TimeOfScreening=@time WHERE Id=@id";
+            cmd.Parameters.Add(new OleDbParameter("@movie", s.MovieScreened));
+            cmd.Parameters.Add(new OleDbParameter("@hall", s.HallId));
+            cmd.Parameters.Add(new OleDbParameter("@time", s.TimeOfScreening));
+            cmd.Parameters.Add(new OleDbParameter("@id", s.Id));
+        }
+
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            MovieScreening s = entity as MovieScreening;
+            cmd.CommandText = "DELETE FROM movieScreenings WHERE Id=@id";
+            cmd.Parameters.Add(new OleDbParameter("@id", s.Id));
         }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             MovieScreening s = entity as MovieScreening;
-            s.Id = Convert.ToInt32(reader["id"]);
-            s.HallId = MovieHallDB.SelectById(Convert.ToInt32(reader["hallid"]));
-            s.TimeOfScreening = (DateTime)reader["TimeOfScreening"];
-            s.MovieScreened = MovieDB.SelectById(Convert.ToInt32(reader["MovieScreened"]));
-            base.CreateModel(entity);
-            return entity;
+            s.Id = Convert.ToInt32(reader["Id"]);
+            s.MovieScreened =MovieDB.SelectById(Convert.ToInt32(reader["MovieScreened"]));
+            s.HallId = MovieHallDB.SelectById(Convert.ToInt32(reader["HallId"]));
+            s.TimeOfScreening = Convert.ToDateTime(reader["ScreeningTime"]);
+            return s;
         }
 
-        protected override BaseEntity NewEntity()
-        {
-            return new MovieScreening();
-        }
-
-        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void CreateInsertdSQL(BaseEntity entity, OleDbCommand cmd)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
-        {
-            MovieScreening ms = entity as MovieScreening;
-            if (ms != null)
-            {
-                string sqlStr = "UPDATE movieScreenings SET hallid=@hid, TimeOfScreening=@TOS, MovieScreened=@MS WHERE ID=@id";
-                cmd.CommandText = sqlStr;
-
-                cmd.Parameters.Add("@hid", OleDbType.Integer).Value = ms.HallId.Id;
-
-                OleDbParameter tosParam = new OleDbParameter("@TOS", OleDbType.DBDate);
-                tosParam.Value = ms.TimeOfScreening;
-                cmd.Parameters.Add(tosParam);
-
-                cmd.Parameters.Add("@MS", OleDbType.Integer).Value = ms.MovieScreened.Id;
-                cmd.Parameters.Add("@id", OleDbType.Integer).Value = ms.Id;
-            }
-        }
-
+        protected override BaseEntity NewEntity() => new MovieScreening();
     }
 }
