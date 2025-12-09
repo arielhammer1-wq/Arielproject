@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel
 {
@@ -13,28 +10,7 @@ namespace ViewModel
         public ArtistList SelectAll()
         {
             command.CommandText = "SELECT * FROM Artists";
-            ArtistList list = new ArtistList(base.Select());
-            return list;
-        }
-        public static Artist SelectById(int id)
-        {
-            ArtistDB db = new ArtistDB();
-            ArtistList list = db.SelectAll();
-            Artist g = list.Find(item => item.Id == id);
-            return g;
-        }
-
-        protected override BaseEntity CreateModel(BaseEntity entity)
-        {
-            Artist a = entity as Artist;
-            a.Id = Convert.ToInt32(reader["Id"]);
-            a.ArtistName = reader["ArtistName"].ToString();
-            a.StartingYear = Convert.ToInt32(reader["StartingYear"]);
-            a.ArtistRole = RoleDB.SelectById(int.Parse(reader["role"].ToString()));
-
-
-            base.CreateModel(entity);
-            return entity;
+            return new ArtistList(base.Select());
         }
 
         protected override BaseEntity NewEntity()
@@ -42,29 +18,61 @@ namespace ViewModel
             return new Artist();
         }
 
-        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        protected override BaseEntity CreateModel(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            Artist a = entity as Artist;
+
+            a.Id = Convert.ToInt32(reader["Id"]);
+            a.ArtistName = reader["ArtistName"].ToString();
+            a.StartingYear = Convert.ToInt32(reader["StartingYear"]);
+
+            int roleId = Convert.ToInt32(reader["role"]);
+            a.ArtistRole = RoleDB.SelectById(roleId);
+
+            return a;
         }
 
         protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            Artist a = entity as Artist;
+
+            cmd.CommandText =
+                @"INSERT INTO Artists (ArtistName, StartingYear, role)
+                  VALUES (@name, @year, @role)";
+
+            cmd.Parameters.Add(new OleDbParameter("@name", a.ArtistName));
+            cmd.Parameters.Add(new OleDbParameter("@year", a.StartingYear));
+            cmd.Parameters.Add(new OleDbParameter("@role", a.ArtistRole.Id));
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            Artist artist = entity as Artist;
-            if (artist != null)
-            {
-                string sqlStr = "UPDATE Artists SET ArtistName=@AName,StartingYear=@SYear,role=@role WHERE ID=@id";
-                cmd.CommandText = sqlStr;
+            Artist a = entity as Artist;
 
-                cmd.Parameters.Add(new OleDbParameter("@AName", artist.ArtistName));
-                cmd.Parameters.Add(new OleDbParameter("@SYear", artist.StartingYear));
-                cmd.Parameters.Add(new OleDbParameter("@role", artist.ArtistRole.Id));
-                cmd.Parameters.Add(new OleDbParameter("@id", artist.Id));
-            }
+            cmd.CommandText =
+                @"UPDATE Artists 
+                  SET ArtistName=@name, StartingYear=@year, role=@role
+                  WHERE Id=@id";
+
+            cmd.Parameters.Add(new OleDbParameter("@name", a.ArtistName));
+            cmd.Parameters.Add(new OleDbParameter("@year", a.StartingYear));
+            cmd.Parameters.Add(new OleDbParameter("@role", a.ArtistRole.Id));
+            cmd.Parameters.Add(new OleDbParameter("@id", a.Id));
+        }
+
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            Artist a = entity as Artist;
+
+            cmd.CommandText = "DELETE FROM Artists WHERE Id=@id";
+            cmd.Parameters.Add(new OleDbParameter("@id", a.Id));
+        }
+
+        public static Artist SelectById(int id)
+        {
+            ArtistDB db = new ArtistDB();
+            ArtistList list = db.SelectAll();
+            return list.Find(x => x.Id == id);
         }
     }
 }

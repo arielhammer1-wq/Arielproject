@@ -1,10 +1,6 @@
 ﻿using Model;
 using System;
-using System.Collections.Generic;
 using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel
 {
@@ -13,44 +9,46 @@ namespace ViewModel
         public AgeRatingList SelectAll()
         {
             command.CommandText = "SELECT * FROM AgeRating";
-            AgeRatingList list = new AgeRatingList(base.Select());
-            return list;
-        }
-        public static AgeRating SelectById(int id)
-        {
-            AgeRatingDB db = new AgeRatingDB();
-            AgeRatingList list = db.SelectAll();
-            AgeRating g = list.Find(item => item.Id == id);
-            return g;
+            return new AgeRatingList(base.Select());
         }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
-            AgeRating ar = entity as AgeRating;
-            ar.Id = Convert.ToInt32(reader["id"]);
-            ar.AgeRatingName = reader["AgeRatingName"].ToString();
-            base.CreateModel(entity);
-            return entity;
+            AgeRating a = entity as AgeRating;
+            a.Id = Convert.ToInt32(reader["Id"]);
+            a.AgeRatingName = reader["AgeRatingName"].ToString();
+            return a;
         }
 
-        protected override BaseEntity NewEntity()
+        protected override BaseEntity NewEntity() => new AgeRating();
+
+        public static AgeRating SelectById(int id)
         {
-            return new AgeRating();
+            AgeRatingDB db = new AgeRatingDB();
+            AgeRatingList list = db.SelectAll();
+            return list.Find(x => x.Id == id);
         }
 
         protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            AgeRating a = entity as AgeRating;
+            cmd.CommandText = "DELETE FROM AgeRating WHERE Id=@id";
+            cmd.Parameters.Add(new OleDbParameter("@id", a.Id));
         }
 
         protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            AgeRating a = entity as AgeRating;
+            cmd.CommandText = "INSERT INTO AgeRating (AgeRatingName) VALUES (@name)";
+            cmd.Parameters.Add(new OleDbParameter("@name", a.AgeRatingName));
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            AgeRating a = entity as AgeRating;
+            cmd.CommandText = "UPDATE AgeRating SET AgeRatingName=@name WHERE Id=@id";
+            cmd.Parameters.Add(new OleDbParameter("@name", a.AgeRatingName));
+            cmd.Parameters.Add(new OleDbParameter("@id", a.Id));
         }
     }
 }

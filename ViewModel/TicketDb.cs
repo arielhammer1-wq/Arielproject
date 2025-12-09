@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel
 {
@@ -13,56 +10,71 @@ namespace ViewModel
         public TicketList SelectAll()
         {
             command.CommandText = "SELECT * FROM Tickets";
-            TicketList list = new TicketList(base.Select());
-            return list;
+            return new TicketList(base.Select());
         }
-        public static Ticket SelectById(int id)
-        {
-            TicketDB db = new TicketDB();
-            TicketList list = db.SelectAll();
-            Ticket g = list.Find(item => item.Id == id);
-            return g;
-        }
+
+        protected override BaseEntity NewEntity() => new Ticket();
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
             Ticket t = entity as Ticket;
-            t.Id = Convert.ToInt32(reader["id"]);
+
+            t.Id = Convert.ToInt32(reader["Id"]);
             t.TicketPrice = Convert.ToInt32(reader["TicketPrice"]);
-            t.User =UserDB.SelectById(int.Parse(reader["Userid"].ToString()));
-            t.Screening = MovieScreeningDB.SelectById(int.Parse(reader["Screeningid"].ToString()));
-            base.CreateModel(entity);
-            return entity;
+
+            int userId = Convert.ToInt32(reader["UserId"]);
+            int screeningId = Convert.ToInt32(reader["ScreeningId"]);
+
+            // Load objects
+            t.User = UserDB.SelectById(userId);
+            t.Screening = MovieScreeningDB.SelectById(screeningId);
+
+            return t;
         }
 
-
-        protected override BaseEntity NewEntity()
-        {
-            return new Ticket();
-        }
-
-        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
-        {
-            throw new NotImplementedException();
-        }
 
         protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
-        { 
-            throw new NotImplementedException();
+        {
+            Ticket t = entity as Ticket;
+
+            cmd.CommandText = @"INSERT INTO Tickets (TicketPrice, UserId, ScreeningId)
+                        VALUES (@price, @user, @screen)";
+
+            cmd.Parameters.Add(new OleDbParameter("@price", t.TicketPrice));
+            cmd.Parameters.Add(new OleDbParameter("@user", t.User.Id));
+            cmd.Parameters.Add(new OleDbParameter("@screen", t.Screening.Id));
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            Ticket tk = entity as Ticket;
-            if (tk != null)
-            {
-                string sqlStr = "UPDATE Tickets SET ScreeningId=@screeningId, TicketPrice=@price WHERE ID=@id";
-                cmd.CommandText = sqlStr;
+            Ticket t = entity as Ticket;
 
-                cmd.Parameters.Add("@screeningId", OleDbType.Integer).Value = tk.Screening.Id;
-                cmd.Parameters.Add("@price", OleDbType.Currency).Value = tk.TicketPrice;  // or OleDbType.Double if not currency
-                cmd.Parameters.Add("@id", OleDbType.Integer).Value = tk.Id;
-            }
+            cmd.CommandText = @"UPDATE Tickets 
+                        SET TicketPrice=@price, UserId=@user, ScreeningId=@screen
+                        WHERE Id=@id";
+
+            cmd.Parameters.Add(new OleDbParameter("@price", t.TicketPrice));
+            cmd.Parameters.Add(new OleDbParameter("@user", t.User.Id));
+            cmd.Parameters.Add(new OleDbParameter("@screen", t.Screening.Id));
+            cmd.Parameters.Add(new OleDbParameter("@id", t.Id));
+        }
+
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            Ticket t = entity as Ticket;
+
+            cmd.CommandText = "DELETE FROM Tickets WHERE Id=@id";
+            cmd.Parameters.Add(new OleDbParameter("@id", t.Id));
+        }
+
+        public static Ticket SelectById(int id)
+        {
+            TicketDB db = new TicketDB();
+            foreach (BaseEntity e in db.SelectAll())
+                if (((Ticket)e).Id == id)
+                    return (Ticket)e;
+
+            return null;
         }
     }
 }

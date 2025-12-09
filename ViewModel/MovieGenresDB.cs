@@ -13,52 +13,60 @@ namespace ViewModel
         public MovieGenreList SelectAll()
         {
             command.CommandText = "SELECT * FROM MovieGenres";
-            MovieGenreList MovieGenreList = new MovieGenreList(base.Select());
-            return MovieGenreList;
+            return new MovieGenreList(base.Select());
         }
-
-        protected override BaseEntity CreateModel(BaseEntity entity)
-        {
-            MovieGenre c = entity as MovieGenre;
-            c.Id = Convert.ToInt32(reader["Id"]);
-            c.GenreName = reader["GenreName"].ToString();
-            return c;
-        }
-
 
         protected override BaseEntity NewEntity()
         {
             return new MovieGenre();
         }
-        public static MovieGenre SelectById(int id)
-        {
-            MovieGenreDB db = new MovieGenreDB();
-            MovieGenreList list = db.SelectAll();
-            MovieGenre g = list.Find(item => item.Id == id);
-            return g;
-        }
 
-        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        protected override BaseEntity CreateModel(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            MovieGenre g = entity as MovieGenre;
+
+            g.Id = Convert.ToInt32(reader["Id"]);
+            g.GenreName = reader["GenreName"].ToString();
+
+            return g;
         }
 
         protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            MovieGenre g = entity as MovieGenre;
+
+            cmd.CommandText =
+                "INSERT INTO MovieGenres (GenreName) VALUES (@name)";
+
+            cmd.Parameters.Add(new OleDbParameter("@name", g.GenreName));
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            MovieGenre mg = entity as MovieGenre;
-            if (mg != null)
-            {
-                string sqlStr = "UPDATE MovieGenres SET GenreName=@GenreName WHERE ID=@id";
-                cmd.CommandText = sqlStr;
+            MovieGenre g = entity as MovieGenre;
 
-                cmd.Parameters.Add(new OleDbParameter("@GenreName", mg.GenreName));
-                cmd.Parameters.Add(new OleDbParameter("@id", mg.Id));
-            }
+            cmd.CommandText =
+                "UPDATE MovieGenres SET GenreName=@name WHERE Id=@id";
+
+            cmd.Parameters.Add(new OleDbParameter("@name", g.GenreName));
+            cmd.Parameters.Add(new OleDbParameter("@id", g.Id));
+        }
+
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            MovieGenre g = entity as MovieGenre;
+
+            cmd.CommandText =
+                "DELETE FROM MovieGenres WHERE Id=@id";
+
+            cmd.Parameters.Add(new OleDbParameter("@id", g.Id));
+        }
+
+        public static MovieGenre SelectById(int id)
+        {
+            MovieGenreDB db = new MovieGenreDB();
+            MovieGenreList list = db.SelectAll();
+            return list.Find(x => x.Id == id);
         }
     }
 }

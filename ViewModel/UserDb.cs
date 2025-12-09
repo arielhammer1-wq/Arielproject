@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ViewModel
 {
@@ -13,26 +10,7 @@ namespace ViewModel
         public UserList SelectAll()
         {
             command.CommandText = "SELECT * FROM Users";
-            UserList list = new UserList(base.Select());
-            return list;
-        }
-        public static User SelectById(int id)
-        {
-            UserDB db = new UserDB();
-            UserList list = db.SelectAll();
-            User g = list.Find(item => item.Id == id);
-            return g;
-        }
-
-        protected override BaseEntity CreateModel(BaseEntity entity)
-        {
-            User u = entity as User;
-            u.Id = Convert.ToInt32(reader["id"]);
-            u.Username = reader["username"].ToString();
-            u.Pass = reader["pass"].ToString();
-            u.Email = reader["Email"].ToString();
-            base.CreateModel(entity);
-            return entity;
+            return new UserList(base.Select());
         }
 
         protected override BaseEntity NewEntity()
@@ -40,29 +18,57 @@ namespace ViewModel
             return new User();
         }
 
-        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        protected override BaseEntity CreateModel(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            User u = entity as User;
+
+            u.Id = Convert.ToInt32(reader["Id"]);
+            u.Username = reader["Username"].ToString();
+            u.Pass = reader["Pass"].ToString();
+            u.Email = reader["Email"].ToString();
+
+            return u;
         }
 
         protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
         {
-            throw new NotImplementedException();
+            User u = entity as User;
+
+            cmd.CommandText = @"INSERT INTO Users (Username, Pass, Email)
+                                VALUES (@username, @pass, @email)";
+
+            cmd.Parameters.Add(new OleDbParameter("@username", u.Username));
+            cmd.Parameters.Add(new OleDbParameter("@pass", u.Pass));
+            cmd.Parameters.Add(new OleDbParameter("@email", u.Email));
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
             User u = entity as User;
-            if (u != null)
-            {
-                string sqlStr = "UPDATE Users SET username=@userName ,pass=@pass,Email=@Email WHERE ID=@id";
-                cmd.CommandText = sqlStr;
 
-                cmd.Parameters.Add(new OleDbParameter("@userName", u.Username));
-                cmd.Parameters.Add(new OleDbParameter("@pass", u.Pass));
-                cmd.Parameters.Add(new OleDbParameter("@Email", u.Email));
-                cmd.Parameters.Add(new OleDbParameter("@id", u.Id));
-            }
+            cmd.CommandText = @"UPDATE Users 
+                                SET Username=@username, Pass=@pass, Email=@email
+                                WHERE Id=@id";
+
+            cmd.Parameters.Add(new OleDbParameter("@username", u.Username));
+            cmd.Parameters.Add(new OleDbParameter("@pass", u.Pass));
+            cmd.Parameters.Add(new OleDbParameter("@email", u.Email));
+            cmd.Parameters.Add(new OleDbParameter("@id", u.Id));
+        }
+
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            User u = entity as User;
+
+            cmd.CommandText = "DELETE FROM Users WHERE Id=@id";
+            cmd.Parameters.Add(new OleDbParameter("@id", u.Id));
+        }
+
+        public static User SelectById(int id)
+        {
+            UserDB db = new UserDB();
+            UserList list = db.SelectAll();
+            return list.Find(x => x.Id == id);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace ViewModel
             s.Id = Convert.ToInt32(reader["Id"]);
             s.MovieScreened =MovieDB.SelectById(Convert.ToInt32(reader["MovieScreened"]));
             s.HallId = MovieHallDB.SelectById(Convert.ToInt32(reader["HallId"]));
-            s.TimeOfScreening = Convert.ToDateTime(reader["ScreeningTime"]);
+            s.TimeOfScreening = Convert.ToDateTime(reader["TimeOfScreening"]);
             return s;
         }
 
