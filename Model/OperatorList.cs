@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class OperatorList : UserList
+    public class OperatorList : List<Operator>
     {
         public OperatorList() { }
         public OperatorList(IEnumerable<Operator> list) : base(list) { }
