@@ -1,0 +1,37 @@
+[
+  {
+    "Name": "Server",
+    "Projects": [
+      {
+        "Path": "ApiNew\\Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      }
+    ]
+  },
+  {
+    "Name": "Server + Test",
+    "Projects": [
+      {
+        "Path": "ApiNew\\Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "ServerTest\\ServerTest.csproj",
+        "Action": "Start",
+        "DebugTarget": "ServerTest"
+      }
+    ]
+  },
+  {
+    "Name": "Test",
+    "Projects": [
+      {
+        "Path": "Test\\Test.csproj",
+        "Action": "Start",
+        "DebugTarget": "Test"
+      }
+    ]
+  }
+]

@@ -9,7 +9,7 @@ using ViewModel;
 
 namespace Myservice
 {
-    public interface MyApiService
+    public interface IApiService
     {
 
         public Task<CityList> GetAllCities();

@@ -1,6 +1,0 @@
-@Apifix_HostAddress = http://localhost:5196
-
-GET {{Apifix_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
