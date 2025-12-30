@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using ViewModel;
-using ViewModel.ViewModel;
 
 namespace Arielproject
 {

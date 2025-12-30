@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Model;
 using ViewModel;
-using ViewModel.ViewModel;
-
 namespace ApiNew.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class CityController : ControllerBase
     {
-        [HttpGet("SelectAllCities")]
+        [HttpGet]
+        [ActionName("SelectAllCities")]
         public CityList GetAll() => new CityDB().SelectAll();
 
         [HttpGet("SelectByIdxCity{id}")]
         public City? GetById(int id) => CityDB.SelectById(id);
 
-        [HttpPost("InsertCity")]
+        [HttpPost]
+        [ActionName("InsertCity")]
         public int Insert([FromBody] City c)
         {
             var db = new CityDB();
@@ -23,7 +23,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut("UpdateCity")]
+        [HttpPut]
+        [ActionName("UpdateCity")]
         public int Update([FromBody] City c)
         {
             var db = new CityDB();
@@ -31,7 +32,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpDelete("DeleteCity{id}")]
+        [HttpDelete("{id}")]
+        [ActionName("DeleteCity")]
         public int Delete(int id)
         {
             var c = CityDB.SelectById(id);

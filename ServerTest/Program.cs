@@ -1,5 +1,5 @@
-﻿using ApiInterface;
-using Model;
+﻿using Model;
+using MoviesInterface;
 
 namespace ServerTest
 {
@@ -7,23 +7,39 @@ namespace ServerTest
     {
         static async Task Main(string[] args)
         {
-            ApiService service = new ApiService();
-
-            CityList clist = await service.GetAllCities();
-            foreach (City city in clist)
-                Console.WriteLine(city.CityName);
+            MoviesFunctions service = new MoviesFunctions();
 
             CityList cities = await service.GetAllCities();
-
-            City cityToDelete = cities.Last();
-            await service.DeleteACity(cityToDelete);
+            foreach (City city in cities)
+                Console.WriteLine(city);
+            Console.WriteLine();
 
             City newCity = new City { CityName = "בית אל" };
             await service.InsertACity(newCity);
 
-            City updateCity = cities.First();
+            cities = await service.GetAllCities();
+            foreach (City city in cities)
+                Console.WriteLine(city);
+            Console.WriteLine();
+
+            City updateCity = cities.Last();
             updateCity.CityName = "נתניה";
             await service.UpdateACity(updateCity);
+
+            cities = await service.GetAllCities();
+            foreach (City city in cities)
+                Console.WriteLine(city);
+            Console.WriteLine();
+
+            City cityToDelete = cities.Last();
+            await service.DeleteACity(cityToDelete);
+
+            cities = await service.GetAllCities();
+            foreach (City city in cities)
+                Console.WriteLine(city);
+            Console.WriteLine();
+
+            Console.Read();
         }
     }
 }

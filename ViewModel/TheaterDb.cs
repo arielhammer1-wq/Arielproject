@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
-using ViewModel.ViewModel;
 
 namespace ViewModel
 {
+
     public class TheaterDB : BaseDB
     {
         public TheaterList SelectAll()

@@ -2,13 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
-
-namespace ViewModel
-{
-    using Model;
-    using System;
-    using System.Data.OleDb;
-
     namespace ViewModel
     {
         public class CityDB : BaseDB
@@ -60,4 +53,4 @@ namespace ViewModel
 
         }
     }
-}
+

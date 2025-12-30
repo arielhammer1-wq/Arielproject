@@ -8,7 +8,8 @@ namespace ApiNew.Controllers
     [Route("api/[controller]/[action]")]
     public class ArtistController : ControllerBase
     {
-        [HttpGet("SelectAllArtists")]
+        [HttpGet]
+        [ActionName("SelectAllArtists")]
         public ArtistList GetAll() => new ArtistDB().SelectAll();
 
         [HttpGet("SelectByIdxArtist{id}")]

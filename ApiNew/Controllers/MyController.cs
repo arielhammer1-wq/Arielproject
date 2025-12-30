@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using ViewModel;
-using ViewModel.ViewModel;
-
 namespace ApiNew.Controllers
 {
     [Route("api/[controller]/[action]"  )]

@@ -15,7 +15,7 @@ namespace Model
 
         public override string ToString()
         {
-            return $"Id={Id},";
+            return $"Id={Id}, ";
         }
     }
 }
