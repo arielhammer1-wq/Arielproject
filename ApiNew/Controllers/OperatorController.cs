@@ -6,13 +6,16 @@ using ViewModel;
 [Route("api/[controller]/[action]")]
 public class OperatorController : ControllerBase
 {
-    [HttpGet("SelectAllOperators")] 
+    [HttpGet]
+    [ActionName("SelectAllOperators")] 
     public OperatorList GetAll() => new OperatorDB().SelectAll();
 
-    [HttpGet("SelectByIdxOperator{id}")]
+    [HttpGet]
+    [ActionName("SelectByIdxOperator{id}")]
     public Operator? GetById(int id) => (Operator)OperatorDB.SelectById(id);
 
-    [HttpPost("InsertOperator")]
+    [HttpPost]
+    [ActionName("InsertOperator")]
     public int Insert([FromBody] Operator o)
     {
         var db = new OperatorDB();
@@ -21,7 +24,8 @@ public class OperatorController : ControllerBase
     }
 
 
-    [HttpPut("UpdateOperator")]
+    [HttpPut]
+    [ActionName("UpdateOperator")]
     public int Update([FromBody] Operator o)
     {
         var db = new OperatorDB();
@@ -29,7 +33,8 @@ public class OperatorController : ControllerBase
         return db.SaveChanges();
     }
 
-    [HttpDelete("DeleteOperator{id}")]
+    [HttpDelete]
+    [ActionName("DeleteOperator{id}")]
     public int Delete(int id)
     {
         var o = OperatorDB.SelectById(id);

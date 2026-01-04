@@ -8,13 +8,16 @@ namespace ApiNew.Controllers
     [Route("api/[controller]/[action]")]
     public class GenresInMoviesController : ControllerBase
     {
-        [HttpGet("SelectAllGenresInMovies")]
+        [HttpGet]
+        [ActionName("SelectAllGenresInMovies")]
         public GenresinMoviesList GetAll() => new GenresInMoviesDB().SelectAll();
 
-        [HttpGet("SelectByIdxGenresInMovies{id}")]
+        [HttpGet]
+        [ActionName("SelectByIdxGenresInMovies{id}")]
         public GenresinMovies? GetById(int id) => GenresInMoviesDB.SelectById(id);
 
-        [HttpPost("InsertGenresInMovies")]
+        [HttpPost]
+        [ActionName("InsertGenresInMovies")]
         public int Insert([FromBody] GenresinMovies gm)
         {
             var db = new GenresInMoviesDB();
@@ -22,7 +25,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut("UpdateGenresInMovies")]
+        [HttpPut]
+        [ActionName("UpdateGenresInMovies")]
         public int Update([FromBody] GenresinMovies gm)
         {
             var db = new GenresInMoviesDB();
@@ -30,7 +34,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpDelete("DeleteGenresInMovies{id}")]
+        [HttpDelete]
+        [ActionName("DeleteGenresInMovies{id}")]
         public int Delete(int id)
         {
             var gm = GenresInMoviesDB.SelectById(id);

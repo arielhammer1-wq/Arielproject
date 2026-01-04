@@ -8,13 +8,16 @@ namespace ApiNew.Controllers
     [Route("api/[controller]/[action]")]
     public class TicketController : ControllerBase
     {
-        [HttpGet("SelectAllTickets")]
+        [HttpGet]
+        [ActionName("SelectAllTickets")]
         public TicketList GetAll() => new TicketDB().SelectAll();
 
-        [HttpGet("SelectByIdxTicket{id}")]
+        [HttpGet]
+        [ActionName("SelectByIdxTicket{id}")]
         public Ticket? GetById(int id) => TicketDB.SelectById(id);
 
-        [HttpPost("InsertTicket")]
+        [HttpPost]
+        [ActionName("InsertTicket")]
         public int Insert([FromBody] Ticket t)
         {
             var db = new TicketDB();
@@ -22,7 +25,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut("UpdateTicket")]
+        [HttpPut]
+        [ActionName("UpdateTicket")]
         public int Update([FromBody] Ticket t)
         {
             var db = new TicketDB();
@@ -30,7 +34,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpDelete("DeleteTicket{id}")]
+        [HttpDelete]
+        [ActionName("DeleteTicket{id}")]
         public int Delete(int id)
         {
             var t = TicketDB.SelectById(id);

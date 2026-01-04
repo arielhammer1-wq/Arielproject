@@ -8,12 +8,15 @@ namespace ApiNew.Controllers
     [Route("api/[controller]/[action]")]
     public class CustomerController : ControllerBase
     {
-        [HttpGet("SelectAllCustomers")]
+        [HttpGet]
+        [ActionName("SelectAllCustomers")]
         public CustomerList GetAll() => new CustomerDB().SelectAll();
-        [HttpGet("SelectByIdxCustomer{id}")]
+        [HttpGet]
+        [ActionName("SelectByIdxCustomer{id}")]
         public Customer? GetById(int id) => CustomerDB.SelectById(id);
 
-        [HttpPost("InsertCustomer")]
+        [HttpPost]
+        [ActionName("InsertCustomer")]
         public int Insert([FromBody] Customer c)
         {
             var db = new CustomerDB();
@@ -21,7 +24,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut("UpdateCustomer")]
+        [HttpPut]
+        [ActionName("UpdateCustomer")]
         public int Update([FromBody] Customer c)
         {
             var db = new CustomerDB();
@@ -30,7 +34,8 @@ namespace ApiNew.Controllers
         }
 
 
-        [HttpDelete("DeleteCustomer{id}")]
+        [HttpDelete]
+        [ActionName("DeleteCustomer{id}")]
         public int Delete(int id)
         {
             var c = CustomerDB.SelectById(id);

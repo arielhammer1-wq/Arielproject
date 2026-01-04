@@ -8,13 +8,16 @@ namespace ApiNew.Controllers
     [Route("api/[controller]/[action]")]
     public class MovieScreeningController : ControllerBase
     {
-        [HttpGet("SelectAllMovieScreenings")]
+        [HttpGet]
+        [ActionName("SelectAllMovieScreenings")]
         public MovieScreeningList GetAll() => new MovieScreeningDB().SelectAll();
 
-        [HttpGet("SelectByIdxMovieScreening{id}")]
+        [HttpGet]
+        [ActionName("SelectByIdxMovieScreening{id}")]
         public MovieScreening? GetById(int id) => MovieScreeningDB.SelectById(id);
 
-        [HttpPost("InsertMovieScreening")]
+        [HttpPost]
+        [ActionName("InsertMovieScreening")]
         public int Insert([FromBody] MovieScreening ms)
         {
             var db = new MovieScreeningDB();
@@ -22,7 +25,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut("UpdateMovieScreening")]
+        [HttpPut]
+        [ActionName("UpdateMovieScreening")]
         public int Update([FromBody] MovieScreening ms)
         {
             var db = new MovieScreeningDB();
@@ -30,7 +34,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpDelete("DeleteMovieScreening{id}")]
+        [HttpDelete]
+        [ActionName("DeleteMovieScreening{id}")]
         public int Delete(int id)
         {
             var ms = MovieScreeningDB.SelectById(id);

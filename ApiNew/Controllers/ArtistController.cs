@@ -12,10 +12,12 @@ namespace ApiNew.Controllers
         [ActionName("SelectAllArtists")]
         public ArtistList GetAll() => new ArtistDB().SelectAll();
 
-        [HttpGet("SelectByIdxArtist{id}")]
+        [HttpGet]
+        [ActionName("SelectByIdxArtist{id}")]
         public Artist? GetById(int id) => ArtistDB.SelectById(id);
 
-        [HttpPost("InsertArtist")]
+        [HttpPost]
+        [ActionName("InsertArtist")]
         public int Insert([FromBody] Artist a)
         {
             var db = new ArtistDB();
@@ -23,7 +25,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut("UpdateArtist")]
+        [HttpPut]
+        [ActionName("UpdateArtist")]
         public int Update([FromBody] Artist a)
         {
             var db = new ArtistDB();
@@ -31,7 +34,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpDelete("DeleteArtist{id}")]
+        [HttpDelete]
+        [ActionName("DeleteArtist{id}")]
         public int Delete(int id)
         {
             var a = ArtistDB.SelectById(id);

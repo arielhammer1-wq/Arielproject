@@ -8,13 +8,16 @@ namespace ApiNew.Controllers
     [Route("api/[controller]/[action]")]
     public class TheaterController : ControllerBase
     {
-        [HttpGet("SelectAllTheaters")]
+        [HttpGet]
+        [ActionName("SelectAllTheaters")]
         public TheaterList GetAll() => new TheaterDB().SelectAll();
 
-        [HttpGet("SelectByIdxTheater{id}")]
+        [HttpGet]
+        [ActionName("SelectByIdxTheater{id}")]
         public Theater? GetById(int id) => TheaterDB.SelectById(id);
 
-        [HttpPost("InsertTheater")]
+        [HttpPost]
+        [ActionName("InsertTheater")]
         public int Insert([FromBody] Theater t)
         {
             var db = new TheaterDB();
@@ -22,7 +25,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut("UpdateTheater")]
+        [HttpPut]
+        [ActionName("UpdateTheater")]
         public int Update([FromBody] Theater t)
         {
             var db = new TheaterDB();
@@ -30,7 +34,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpDelete("DeleteTheater{id}")]
+        [HttpDelete]
+        [ActionName("DeleteTheater{id}")]
         public int Delete(int id)
         {
             var t = TheaterDB.SelectById(id);

@@ -6,13 +6,16 @@ using ViewModel;
 [Route("api/[controller]/[action]")]
 public class RoleController : ControllerBase
 {
-    [HttpGet("SelectAllRoles")]
+    [HttpGet]
+    [ActionName("SelectAllRoles")]
     public RoleList GetAll() => new RoleDB().SelectAll();
 
-    [HttpGet("SelectByIdxRole{id}")] 
+    [HttpGet]
+    [ActionName("SelectByIdxRole{id}")] 
     public Role? GetById(int id) => RoleDB.SelectById(id);
 
-     [HttpPost("InsertRole")]
+     [HttpPost]
+    [ActionName("InsertRole")]
     public int Insert([FromBody] Role r)
     {
         var db = new RoleDB();
@@ -20,7 +23,8 @@ public class RoleController : ControllerBase
         return db.SaveChanges();
     }
 
-    [HttpPut("UpdateRole")]
+    [HttpPut]
+    [ActionName("UpdateRole")]
     public int Update([FromBody] Role r)
     {
         var db = new RoleDB();
@@ -28,7 +32,8 @@ public class RoleController : ControllerBase
         return db.SaveChanges();
     }
 
-    [HttpDelete("DeleteRole{id}")]
+    [HttpDelete]
+    [ActionName("DeleteRole{id}")]
     public int Delete(int id)
     {
         var r = RoleDB.SelectById(id);
