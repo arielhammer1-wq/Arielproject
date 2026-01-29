@@ -11,5 +11,6 @@ namespace Model
         public int TicketPrice { get; set; }
         public User User { get; set; }
         public MovieScreening Screening { get; set; }
+        public int SeatNumber { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace MoviesInterface
         }
 
         // --------------------------
-        // CITY
+        #region CITY
         // --------------------------
         public async Task<CityList> GetAllCities()
         {
@@ -36,6 +36,10 @@ namespace MoviesInterface
             {
                 throw new Exception($"Error in GetAllCities: {ex.Message}");
             }
+        }
+        public async Task<City?> GetCityById(int id)
+        {
+            return await client.GetFromJsonAsync<City>($"api/City/SelectByIdxCity{id}");
         }
 
         public async Task<int> InsertACity(City city)
@@ -55,10 +59,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/City/DeleteCity/{city.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
-
+#endregion
         // --------------------------
-        // CUSTOMER
+        #region CUSTOMER
         // --------------------------
         public async Task<CustomerList> GetAllCustomers()
         {
@@ -68,6 +71,10 @@ namespace MoviesInterface
                        ?? new CustomerList();
             }
             catch { return new CustomerList(); }
+        }
+        public async Task<Customer?> GetCustomerById(int id)
+        {
+            return await client.GetFromJsonAsync<Customer>($"api/Customer/SelectByIdxCustomer{id}");
         }
 
         public async Task<int> InsertCustomer(Customer c)
@@ -87,9 +94,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Customer/DeleteCustomer/{c.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+#endregion
         // --------------------------
-        // GENDER
+        #region GENDER
         // --------------------------
         public async Task<GenderList> GetAllGenders()
         {
@@ -99,6 +106,10 @@ namespace MoviesInterface
                        ?? new GenderList();
             }
             catch { return new GenderList(); }
+        }
+        public async Task<Gender?> GetGenderById(int id)
+        {
+            return await client.GetFromJsonAsync<Gender>($"api/Gender/SelectByIdxGender{id}");
         }
 
         public async Task<int> InsertGender(Gender g)
@@ -118,9 +129,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Gender/DeleteGender/{g.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+#endregion
         // --------------------------
-        // ROLE
+        #region ROLE
         // --------------------------
         public async Task<RoleList> GetAllRoles()
         {
@@ -130,6 +141,10 @@ namespace MoviesInterface
                        ?? new RoleList();
             }
             catch { return new RoleList(); }
+        }
+        public async Task<Role?> GetRoleById(int id)
+        {
+            return await client.GetFromJsonAsync<Role>($"api/Role/SelectByIdxRole{id}");
         }
 
         public async Task<int> InsertRole(Role role)
@@ -149,9 +164,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Role/DeleteRole/{role.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+        #endregion
         // --------------------------
-        // OPERATOR
+        #region OPERATOR
         // --------------------------
         public async Task<OperatorList> GetAllOperators()
         {
@@ -161,6 +176,10 @@ namespace MoviesInterface
                        ?? new OperatorList();
             }
             catch { return new OperatorList(); }
+        }
+        public async Task<Operator?> GetOperatorById(int id)
+        {
+            return await client.GetFromJsonAsync<Operator>($"api/Operator/SelectByIdxOperator{id}");
         }
 
         public async Task<int> InsertOperator(Operator op)
@@ -180,9 +199,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Operator/DeleteOperator{op.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+#endregion
         // --------------------------
-        // ARTIST
+        #region ARTIST
         // --------------------------
         public async Task<ArtistList> GetAllArtists()
         {
@@ -211,9 +230,14 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Artist/DeleteArtist/{a.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
+        public async Task<Artist?> GetArtistById(int id)
+        {
+            return await client.GetFromJsonAsync<Artist>($"api/Artist/SelectByIdxArtist{id}");
+        }
 
+        #endregion
         // --------------------------
-        // ACTORS IN MOVIE
+        #region ACTORS IN MOVIE
         // --------------------------
         public async Task<ActorsInMovieList> GetAllActorsInMovies()
         {
@@ -223,6 +247,10 @@ namespace MoviesInterface
                        ?? new ActorsInMovieList();
             }
             catch { return new ActorsInMovieList(); }
+        }
+        public async Task<ActorsInMovie?> GetActorsInMovieById(int id)
+        {
+            return await client.GetFromJsonAsync<ActorsInMovie>($"api/ActorsInMovie/SelectByIdxActorsInMovie{id}");
         }
 
         public async Task<int> InsertActorsInMovie(ActorsInMovie aim)
@@ -242,9 +270,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/ActorsInMovie/DeleteActorsInMovie{aim.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+    #endregion
         // --------------------------
-        // GENRES IN MOVIES
+        #region GENRES IN MOVIES
         // --------------------------
         public async Task<GenresinMoviesList> GetAllGenresInMovies()
         {
@@ -255,6 +283,11 @@ namespace MoviesInterface
             }
             catch { return new GenresinMoviesList(); }
         }
+        public async Task<GenresinMovies?> GetGenresInMoviesById(int id)
+        {
+            return await client.GetFromJsonAsync<GenresinMovies>($"api/GenresInMovies/SelectByIdxGenresInMovies{id}");
+        }
+
 
         public async Task<int> InsertGenresInMovies(GenresinMovies gm)
         {
@@ -273,9 +306,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/GenresInMovies/DeleteGenresInMovies/{gm.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+    #endregion
         // --------------------------
-        // MOVIES
+        #region MOVIES
         // --------------------------
         public async Task<MovieList> GetAllMovies()
         {
@@ -286,6 +319,20 @@ namespace MoviesInterface
             }
             catch { return new MovieList(); }
         }
+        public async Task<Movie?> GetMovieById(int id)
+        {
+            try
+            {
+                return await client.GetFromJsonAsync<Movie>(
+                    $"api/Movie/SelectByIdxMovie{id}"
+                );
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         public async Task<int> InsertMovie(Movie m)
         {
@@ -304,9 +351,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Movie/DeleteMovie/{m.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+        #endregion
         // --------------------------
-        // MOVIE GENRE
+        #region MOVIE GENRE
         // --------------------------
         public async Task<MovieGenreList> GetAllMovieGenres()
         {
@@ -316,6 +363,10 @@ namespace MoviesInterface
                        ?? new MovieGenreList();
             }
             catch { return new MovieGenreList(); }
+        }
+        public async Task<MovieGenre?> GetMovieGenreById(int id)
+        {
+            return await client.GetFromJsonAsync<MovieGenre>($"api/MovieGenre/SelectByIdxMovieGenre{id}");
         }
 
         public async Task<int> InsertMovieGenre(MovieGenre mg)
@@ -335,9 +386,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/MovieGenre/DeleteMovieGenre/{mg.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+#endregion
         // --------------------------
-        // MOVIE HALL
+        #region MOVIE HALL
         // --------------------------
         public async Task<MovieHallList> GetAllMovieHalls()
         {
@@ -348,6 +399,20 @@ namespace MoviesInterface
             }
             catch { return new MovieHallList(); }
         }
+        public async Task<MovieHall?> GetMovieHallById(int id)
+        {
+            try
+            {
+                return await client.GetFromJsonAsync<MovieHall>(
+                    $"api/MovieHall/SelectByIdxMovieHall{id}"
+                );
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         public async Task<int> InsertMovieHall(MovieHall mh)
         {
@@ -366,9 +431,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/MovieHall/DeleteMovieHall/{mh.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+#endregion
         // --------------------------
-        // MOVIE SCREENING
+        #region MOVIE SCREENING
         // --------------------------
         public async Task<MovieScreeningList> GetAllMovieScreenings()
         {
@@ -378,7 +443,13 @@ namespace MoviesInterface
                        ?? new MovieScreeningList();
             }
             catch { return new MovieScreeningList(); }
+
         }
+        public async Task<MovieScreening?> GetMovieScreeningById(int id)
+        {
+            return await client.GetFromJsonAsync<MovieScreening>($"api/MovieScreening/SelectByIdxMovieScreening{id}");
+        }
+
 
         public async Task<int> InsertMovieScreening(MovieScreening ms)
         {
@@ -397,9 +468,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/MovieScreening/DeleteMovieScreening/{ms.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
-        // --------------------------
-        // TICKET
+        #endregion
+        //--------------------------
+        #region Ticket
         // --------------------------
         public async Task<TicketList> GetAllTickets()
         {
@@ -409,6 +480,10 @@ namespace MoviesInterface
                        ?? new TicketList();
             }
             catch { return new TicketList(); }
+        }
+        public async Task<Ticket?> GetTicketById(int id)
+        {
+            return await client.GetFromJsonAsync<Ticket>($"api/Ticket/SelectByIdxTicket{id}");
         }
 
         public async Task<int> InsertTicket(Ticket t)
@@ -428,9 +503,11 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Ticket/DeleteTicket/{t.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
+        #endregion
         // --------------------------
-        // THEATER
+        #region  /*THEATER*/
         // --------------------------
+
         public async Task<TheaterList> GetAllTheaters()
         {
             try
@@ -440,6 +517,21 @@ namespace MoviesInterface
             }
             catch { return new TheaterList(); }
         }
+        
+        public async Task<Theater?> GetTheaterById(int id)
+        {
+            try
+            {
+                return await client.GetFromJsonAsync<Theater>(
+                    $"api/Theater/SelectByIdxTheater{id}"
+                );
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         public async Task<int> InsertTheater(Theater theater)
         {
@@ -458,9 +550,9 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/Theater/DeleteTheater/{theater.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
-
+        #endregion
         // --------------------------
-        // User
+        #region User
         // --------------------------
         public async Task<UserList> GetAllUsers()
         {
@@ -471,6 +563,11 @@ namespace MoviesInterface
             }
             catch { return new UserList(); }
         }
+        public async Task<User?> GetUserById(int id)
+        {
+            return await client.GetFromJsonAsync<User>($"api/User/SelectByIdxUser{id}");
+        }
+
 
         public async Task<int> InsertUser(User user)
         {
@@ -489,6 +586,7 @@ namespace MoviesInterface
             var res = await client.DeleteAsync($"api/User/DeleteUser/{user.Id}");
             return res.IsSuccessStatusCode ? 1 : 0;
         }
+        #endregion
 
     }
 }

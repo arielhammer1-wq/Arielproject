@@ -65,5 +65,20 @@ namespace MoviesInterface
     public Task<int> InsertGenresInMovies(GenresinMovies gm);
     public Task<int> UpdateGenresInMovies(GenresinMovies gm);
     public Task<int> DeleteGenresInMovies(GenresinMovies gm);
-}
+        Task<City?> GetCityById(int id);
+        Task<Customer?> GetCustomerById(int id);
+        Task<Operator?> GetOperatorById(int id);
+        Task<Role?> GetRoleById(int id);
+        Task<Gender?> GetGenderById(int id);
+        Task<Theater?> GetTheaterById(int id);
+        Task<MovieHall?> GetMovieHallById(int id);
+        Task<Movie?> GetMovieById(int id);
+        Task<MovieGenre?> GetMovieGenreById(int id);
+        Task<MovieScreening?> GetMovieScreeningById(int id);
+        Task<Ticket?> GetTicketById(int id);
+        Task<Artist?> GetArtistById(int id);
+        Task<ActorsInMovie?> GetActorsInMovieById(int id);
+        Task<GenresinMovies?> GetGenresInMoviesById(int id);
+        Task<User?> GetUserById(int id);
+    }
 }

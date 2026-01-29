@@ -24,6 +24,7 @@ namespace ViewModel
 
             int userId = Convert.ToInt32(reader["UserId"]);
             int screeningId = Convert.ToInt32(reader["ScreeningId"]);
+            t.SeatNumber = int.Parse(reader["SeatNumber"].ToString());
 
             // Load objects
             t.User = UserDB.SelectById(userId);
@@ -37,12 +38,14 @@ namespace ViewModel
         {
             Ticket t = entity as Ticket;
 
-            cmd.CommandText = @"INSERT INTO Tickets (TicketPrice, UserId, ScreeningId)
-                        VALUES (@price, @user, @screen)";
+            cmd.CommandText = @"INSERT INTO Tickets (SeatNumber,TicketPrice, UserId, ScreeningId)
+                        VALUES (@seat,@price, @user, @screen)";
 
+            cmd.Parameters.Add(new OleDbParameter("@seat", t.SeatNumber));
             cmd.Parameters.Add(new OleDbParameter("@price", t.TicketPrice));
             cmd.Parameters.Add(new OleDbParameter("@user", t.User.Id));
             cmd.Parameters.Add(new OleDbParameter("@screen", t.Screening.Id));
+
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
@@ -50,13 +53,15 @@ namespace ViewModel
             Ticket t = entity as Ticket;
 
             cmd.CommandText = @"UPDATE Tickets 
-                        SET TicketPrice=@price, UserId=@user, ScreeningId=@screen
+                        SET TicketPrice=@price, UserId=@user, ScreeningId=@screen SeatNumber=@seat
                         WHERE Id=@id";
 
             cmd.Parameters.Add(new OleDbParameter("@price", t.TicketPrice));
             cmd.Parameters.Add(new OleDbParameter("@user", t.User.Id));
             cmd.Parameters.Add(new OleDbParameter("@screen", t.Screening.Id));
+            cmd.Parameters.Add(new OleDbParameter("@seat", t.SeatNumber));
             cmd.Parameters.Add(new OleDbParameter("@id", t.Id));
+
         }
 
         protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
