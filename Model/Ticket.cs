@@ -8,9 +8,13 @@ namespace Model
 {
     public class Ticket : BaseEntity
     {
-        public int TicketPrice { get; set; }
-        public User User { get; set; }
-        public MovieScreening Screening { get; set; }
         public int SeatNumber { get; set; }
+        public int TicketPrice { get; set; }
+
+        public Movie Movie { get; set; }
+        public Theater Theater { get; set; }
+        public MovieHall Hall { get; set; }
+
+        public User User { get; set; }
     }
 }
