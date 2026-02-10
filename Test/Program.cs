@@ -39,7 +39,7 @@ namespace Test
             {
                 SeatNumber = 5,
                 TicketPrice = 40,
-                User = user,
+                User = user,    
                 Movie = MovieDB.SelectById(1),       // ⚠️ ID שקיים באמת
                 Theater = TheaterDB.SelectById(1),   // ⚠️
                 Hall = MovieHallDB.SelectById(1)
