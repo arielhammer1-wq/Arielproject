@@ -12,7 +12,7 @@ namespace MoviesInterface
 {
     public class MoviesFunctions: Moviesinface
     {
-        private readonly string baseUrl = "https://t1tphxjm-5096.euw.devtunnels.ms/"/*"http://localhost:5096/"*/;
+        private readonly string baseUrl = "https://tx1k0wkz-5096.euw.devtunnels.ms/"/*"http://localhost:5096/"*/;
         private readonly HttpClient client;
 
         public MoviesFunctions()

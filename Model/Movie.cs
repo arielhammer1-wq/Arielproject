@@ -14,5 +14,6 @@ namespace Model
         public DateTime ReleaseDate { get; set; }
         public MovieGenre Genre { get; set; }
         public String PosterUrl { get; set; }
+        public String TrailerUrl { get; set; }
     }
 }
