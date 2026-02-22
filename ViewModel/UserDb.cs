@@ -26,6 +26,7 @@ namespace ViewModel
             u.Username = reader["Username"].ToString();
             u.Pass = reader["Pass"].ToString();
             u.Email = reader["Email"].ToString();
+            u.Roleid= Convert.ToInt32(reader["Roleid"]);
 
             return u;
         }
@@ -34,12 +35,13 @@ namespace ViewModel
         {
             User u = entity as User;
 
-            cmd.CommandText = @"INSERT INTO Users (Username, Pass, Email)
-                                VALUES (@username, @pass, @email)";
+            cmd.CommandText = @"INSERT INTO Users (Username, Pass, Email ,Roleid)
+                                VALUES (@username, @pass, @email,@roleid)";
 
             cmd.Parameters.Add(new OleDbParameter("@username", u.Username));
             cmd.Parameters.Add(new OleDbParameter("@pass", u.Pass));
             cmd.Parameters.Add(new OleDbParameter("@email", u.Email));
+            cmd.Parameters.Add(new OleDbParameter("@roleid", u.Roleid));
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
@@ -47,12 +49,13 @@ namespace ViewModel
             User u = entity as User;
 
             cmd.CommandText = @"UPDATE Users 
-                                SET Username=@username, Pass=@pass, Email=@email
+                                SET Username=@username, Pass=@pass, Email=@email,Roleid=@roleid
                                 WHERE Id=@id";
 
             cmd.Parameters.Add(new OleDbParameter("@username", u.Username));
             cmd.Parameters.Add(new OleDbParameter("@pass", u.Pass));
             cmd.Parameters.Add(new OleDbParameter("@email", u.Email));
+            cmd.Parameters.Add(new OleDbParameter("@roleid", u.Roleid));
             cmd.Parameters.Add(new OleDbParameter("@id", u.Id));
         }
 

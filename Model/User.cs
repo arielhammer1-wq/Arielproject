@@ -11,5 +11,6 @@ namespace Model
         public string Username { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }
+        public int Roleid { get; set; }
     }
 }
