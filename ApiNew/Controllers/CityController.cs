@@ -11,8 +11,8 @@ namespace ApiNew.Controllers
         [ActionName("SelectAllCities")]
         public CityList GetAll() => new CityDB().SelectAll();
 
-        [HttpGet]
-        [ActionName("SelectByIdxCity{id}")]
+        [HttpGet("{id}")]
+        [ActionName("SelectByIdxCity")]
         public City? GetById(int id) => CityDB.SelectById(id);
 
         [HttpPost]

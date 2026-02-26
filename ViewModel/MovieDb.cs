@@ -63,9 +63,9 @@ namespace ViewModel
             cmd.Parameters.Add(new OleDbParameter("@age",m.AgeRatingName.Id));
             cmd.Parameters.Add(new OleDbParameter("@date", m.ReleaseDate));
             cmd.Parameters.Add(new OleDbParameter("@genre", m.Genre.Id));
-            cmd.Parameters.Add(new OleDbParameter("@id", m.Id));
             cmd.Parameters.Add(new OleDbParameter("@PosterUrl", m.PosterUrl));
             cmd.Parameters.Add(new OleDbParameter("@TrailerUrl", m.TrailerUrl));
+            cmd.Parameters.Add(new OleDbParameter("@id", m.Id));
 
         }
 

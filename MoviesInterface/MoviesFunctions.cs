@@ -39,7 +39,7 @@ namespace MoviesInterface
         }
         public async Task<City?> GetCityById(int id)
         {
-            return await client.GetFromJsonAsync<City>($"api/City/SelectByIdxCity{id}");
+            return await client.GetFromJsonAsync<City>($"api/City/SelectByIdxCity/{id}");
         }
 
         public async Task<int> InsertACity(City city)
@@ -588,5 +588,58 @@ namespace MoviesInterface
         }
         #endregion
 
+        // --------------------------
+        #region AGE RATING
+        // --------------------------
+        public async Task<AgeRatingList> GetAllAgeRatingInMovies()
+        {
+            try
+            {
+                return await client.GetFromJsonAsync<AgeRatingList>("api/AgeRating/SelectAllAgeRatings")
+                       ?? new AgeRatingList();
+            }
+            catch { return new AgeRatingList(); }
+        }
+
+        public async Task<AgeRating?> GetAgeRatingById(int id)
+        {
+            return await client.GetFromJsonAsync<AgeRating>($"api/AgeRating/SelectByIdxAgeRating{id}");
+        }
+
+        public async Task<int> InsertAgeRating(AgeRating ageRating)
+        {
+            var res = await client.PostAsJsonAsync("api/AgeRating/InsertAgeRating", ageRating);
+            return res.IsSuccessStatusCode ? 1 : 0;
+        }
+
+        public async Task<int> UpdateAgeRating(AgeRating ageRating)
+        {
+            var res = await client.PutAsJsonAsync("api/AgeRating/UpdateAgeRating", ageRating);
+            return res.IsSuccessStatusCode ? 1 : 0;
+        }
+
+        public async Task<int> DeleteAgeRating(AgeRating ageRating)
+        {
+            var res = await client.DeleteAsync($"api/AgeRating/DeleteAgeRating/{ageRating.Id}");
+            return res.IsSuccessStatusCode ? 1 : 0;
+        }
+
+        
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
 }

@@ -80,5 +80,9 @@ namespace MoviesInterface
         Task<ActorsInMovie?> GetActorsInMovieById(int id);
         Task<GenresinMovies?> GetGenresInMoviesById(int id);
         Task<User?> GetUserById(int id);
+        public Task<AgeRatingList> GetAllAgeRatingInMovies();
+        public Task<int> InsertAgeRating(AgeRating gm);
+        public Task<int> UpdateAgeRating(AgeRating gm);
+        public Task<int> DeleteAgeRating(AgeRating gm);
     }
 }
