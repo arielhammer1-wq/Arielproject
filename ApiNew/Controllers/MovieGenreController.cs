@@ -12,8 +12,8 @@ namespace ApiNew.Controllers
         [ActionName("SelectAllMovieGenres")]
         public MovieGenreList GetAll() => new MovieGenreDB().SelectAll();
 
-        [HttpGet]
-        [ActionName("SelectByIdxMovieGenre{id}")]
+        [HttpGet("{id}")]
+        [ActionName("SelectByIdxMovieGenre")]
         public MovieGenre? GetById(int id) => MovieGenreDB.SelectById(id);
 
         [HttpPost]

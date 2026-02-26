@@ -346,6 +346,7 @@ namespace MoviesInterface
             return res.IsSuccessStatusCode ? 1 : 0;
         }
 
+
         public async Task<int> DeleteMovie(Movie m)
         {
             var res = await client.DeleteAsync($"api/Movie/DeleteMovie/{m.Id}");
@@ -366,7 +367,7 @@ namespace MoviesInterface
         }
         public async Task<MovieGenre?> GetMovieGenreById(int id)
         {
-            return await client.GetFromJsonAsync<MovieGenre>($"api/MovieGenre/SelectByIdxMovieGenre{id}");
+            return await client.GetFromJsonAsync<MovieGenre>($"api/MovieGenre/SelectByIdxMovieGenre/{id}");
         }
 
         public async Task<int> InsertMovieGenre(MovieGenre mg)
@@ -603,7 +604,7 @@ namespace MoviesInterface
 
         public async Task<AgeRating?> GetAgeRatingById(int id)
         {
-            return await client.GetFromJsonAsync<AgeRating>($"api/AgeRating/SelectByIdxAgeRating{id}");
+            return await client.GetFromJsonAsync<AgeRating>($"api/AgeRating/SelectByIdxAgeRating/{id}");
         }
 
         public async Task<int> InsertAgeRating(AgeRating ageRating)
