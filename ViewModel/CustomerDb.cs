@@ -10,8 +10,8 @@ namespace ViewModel
         public CustomerList SelectAll()
         {
             command.CommandText =
-                "SELECT Customers.Id, Customers.DateOfBirth, Customers.Gender, Customers.RepeatCustomer, " +
-                "Users.Username, Users.Email, Users.Pass " +
+                "SELECT Customers.Id, Customers.DateOfBirth, Customers.gender, Customers.RepeatCustomer, " +
+                "Users.username, Users.Email, Users.pass , Users.Roleid " +
                 "FROM Customers INNER JOIN Users ON Customers.Id = Users.Id";
 
             return new CustomerList(base.Select());
@@ -28,7 +28,7 @@ namespace ViewModel
 
             // Fill Customer-specific fields
             c.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-            c.CustomerGender = GenderDB.SelectById(Convert.ToInt32(reader["Gender"]));
+            c.CustomerGender = GenderDB.SelectById(Convert.ToInt32(reader["gender"]));
             c.RepeatCustomer = Convert.ToBoolean(reader["RepeatCustomer"]);
 
             // Fill User fields (Username, Pass, Email)

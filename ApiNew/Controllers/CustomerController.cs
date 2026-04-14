@@ -5,18 +5,19 @@ using ViewModel;
 namespace ApiNew.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")] // Removed /[action] to make routes cleaner
     public class CustomerController : ControllerBase
     {
-        [HttpGet]
-        [ActionName("SelectAllCustomers")]
+        // URL: api/Customer/SelectAllCustomers
+        [HttpGet("SelectAllCustomers")]
         public CustomerList GetAll() => new CustomerDB().SelectAll();
-        [HttpGet]
-        [ActionName("SelectByIdxCustomer{id}")]
+
+        // URL: api/Customer/SelectByIdxCustomer/5
+        [HttpGet("SelectByIdxCustomer/{id}")]
         public Customer? GetById(int id) => CustomerDB.SelectById(id);
 
-        [HttpPost]
-        [ActionName("InsertCustomer")]
+        // URL: api/Customer/InsertCustomer
+        [HttpPost("InsertCustomer")]
         public int Insert([FromBody] Customer c)
         {
             var db = new CustomerDB();
@@ -24,8 +25,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-        [HttpPut]
-        [ActionName("UpdateCustomer")]
+        // URL: api/Customer/UpdateCustomer
+        [HttpPut("UpdateCustomer")]
         public int Update([FromBody] Customer c)
         {
             var db = new CustomerDB();
@@ -33,9 +34,8 @@ namespace ApiNew.Controllers
             return db.SaveChanges();
         }
 
-
-        [HttpDelete]
-        [ActionName("DeleteCustomer{id}")]
+        // URL: api/Customer/DeleteCustomer/5
+        [HttpDelete("DeleteCustomer/{id}")]
         public int Delete(int id)
         {
             var c = CustomerDB.SelectById(id);
