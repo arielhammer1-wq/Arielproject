@@ -115,11 +115,24 @@ namespace MoviesInterface
         #endregion
 
         #region ACTORS IN MOVIE
-        public async Task<ActorsInMovieList> GetAllActorsInMovies() => await client.GetFromJsonAsync<ActorsInMovieList>("api/ActorsInMovie/SelectAllActorsInMovies") ?? new ActorsInMovieList();
-        public async Task<ActorsInMovie?> GetActorsInMovieById(int id) => await client.GetFromJsonAsync<ActorsInMovie>($"api/ActorsInMovie/SelectByIdxActorsInMovie/{id}");
-        public async Task<int> InsertActorsInMovie(ActorsInMovie aim) => (await client.PostAsJsonAsync("api/ActorsInMovie/InsertActorsInMovie", aim)).IsSuccessStatusCode ? 1 : 0;
-        public async Task<int> UpdateActorsInMovie(ActorsInMovie aim) => (await client.PutAsJsonAsync("api/ActorsInMovie/UpdateActorsInMovie", aim)).IsSuccessStatusCode ? 1 : 0;
-        public async Task<int> DeleteActorsInMovie(ActorsInMovie aim) => (await client.DeleteAsync($"api/ActorsInMovie/DeleteActorsInMovie/{aim.Id}")).IsSuccessStatusCode ? 1 : 0;
+        public async Task<ActorsInMovieList> GetAllActorsInMovies() =>
+            await client.GetFromJsonAsync<ActorsInMovieList>("api/ActorsInMovie/SelectAllActorsInMovies") ?? new ActorsInMovieList();
+
+        public async Task<ActorsInMovie?> GetActorsInMovieById(int id) =>
+            await client.GetFromJsonAsync<ActorsInMovie>($"api/ActorsInMovie/SelectByIdxActorsInMovie/{id}");
+
+        // NEW: Fetches the full cast (Artists) for a specific movie
+        public async Task<ArtistList> GetArtistsByMovieId(int movieId) =>
+            await client.GetFromJsonAsync<ArtistList>($"api/Artist/SelectByMovieId/{movieId}") ?? new ArtistList();
+
+        public async Task<int> InsertActorsInMovie(ActorsInMovie aim) =>
+            (await client.PostAsJsonAsync("api/ActorsInMovie/InsertActorsInMovie", aim)).IsSuccessStatusCode ? 1 : 0;
+
+        public async Task<int> UpdateActorsInMovie(ActorsInMovie aim) =>
+            (await client.PutAsJsonAsync("api/ActorsInMovie/UpdateActorsInMovie", aim)).IsSuccessStatusCode ? 1 : 0;
+
+        public async Task<int> DeleteActorsInMovie(ActorsInMovie aim) =>
+            (await client.DeleteAsync($"api/ActorsInMovie/DeleteActorsInMovie/{aim.Id}")).IsSuccessStatusCode ? 1 : 0;
         #endregion
 
         #region GENRES IN MOVIES

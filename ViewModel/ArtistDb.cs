@@ -74,5 +74,14 @@ namespace ViewModel
             ArtistList list = db.SelectAll();
             return list.Find(x => x.Id == id);
         }
+        public ArtistList SelectByMovie(int movieId)
+        {
+            // Ensure 'ArtistId' and 'MovieId' match the junction table exactly
+            command.CommandText = $@"SELECT Artists.* FROM Artists 
+                            INNER JOIN ActorsinMovie ON Artists.id = ActorsinMovie.ArtistId 
+                            WHERE ActorsinMovie.MovieId = {movieId}";
+
+            return new ArtistList(base.Select());
+        }
     }
 }

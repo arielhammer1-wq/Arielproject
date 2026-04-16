@@ -44,5 +44,11 @@ namespace ApiNew.Controllers
             db.Delete(a);
             return db.SaveChanges();
         }
+        [HttpGet]
+        [ActionName("SelectByMovieId/{movieId}")] // This defines the path
+        public ArtistList GetByMovie([FromRoute] int movieId) // [FromRoute] fixes the double-ID issue
+        {
+            return new ArtistDB().SelectByMovie(movieId);
+        }
     }
 }
