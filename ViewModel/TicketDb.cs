@@ -94,5 +94,34 @@ namespace ViewModel
 
             return null;
         }
+
+        public List<int> GetTakenSeats(int movieId, int hallId)
+        {
+            List<int> takenSeats = new List<int>();
+
+            // We filter the Tickets table by the specific movie and hall
+            command.CommandText = $"SELECT SeatNumber FROM Tickets WHERE MovieId = {movieId} AND HallId = {hallId}";
+
+            try
+            {
+                connection.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    takenSeats.Add(Convert.ToInt32(reader["SeatNumber"]));
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Database Error: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return takenSeats;
+        }
     }
 }
