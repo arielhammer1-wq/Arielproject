@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel;
 
 namespace MoviesInterface
 {
@@ -84,5 +85,9 @@ namespace MoviesInterface
         public Task<int> InsertAgeRating(AgeRating gm);
         public Task<int> UpdateAgeRating(AgeRating gm);
         public Task<int> DeleteAgeRating(AgeRating gm);
+        public Task<TakenSeatsList> GetAllTakenSeats();
+        public Task<List<int>> GetTakenSeatsByScreening(int movieId, int hallId);
+        public Task<int> InsertTakenSeat(TakenSeat ts);
+        public Task<int> DeleteTakenSeat(int id);
     }
 }

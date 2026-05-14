@@ -29,7 +29,7 @@ namespace ViewModel
             int theaterId = Convert.ToInt32(reader["Theaterid"]);
             h.Theater = TheaterDB.SelectById(theaterId);
 
-            return h;
+            return h;   
         }
 
         protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)

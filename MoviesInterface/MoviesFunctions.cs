@@ -6,6 +6,8 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ViewModel;
+
 
 namespace MoviesInterface
 {
@@ -157,6 +159,55 @@ namespace MoviesInterface
         public async Task<int> InsertTicket(Ticket t) => (await client.PostAsJsonAsync("api/Ticket/InsertTicket", t)).IsSuccessStatusCode ? 1 : 0;
         public async Task<int> UpdateTicket(Ticket t) => (await client.PutAsJsonAsync("api/Ticket/UpdateTicket", t)).IsSuccessStatusCode ? 1 : 0;
         public async Task<int> DeleteTicket(Ticket t) => (await client.DeleteAsync($"api/Ticket/DeleteTicket/{t.Id}")).IsSuccessStatusCode ? 1 : 0;
+        public async Task<List<int>> GetTakenSeats(int movieId, int theaterId, int hallId)
+        {
+            TicketList allTickets = await GetAllTickets();
+
+            List<int> takenSeats = allTickets
+                .Where(t => t.Movie != null &&
+                            t.Theater != null &&
+                            t.Hall != null &&
+                            t.Movie.Id == movieId &&
+                            t.Theater.Id == theaterId &&
+                            t.Hall.Id == hallId)
+                .Select(t => t.SeatNumber)
+                .ToList();
+
+            return takenSeats;
+        }
+        #endregion
+
+        #region TAKEN SEATS
+        public async Task<TakenSeatsList> GetAllTakenSeats()
+        {
+            try
+            {
+                return await client.GetFromJsonAsync<TakenSeatsList>("api/TakenSeats/SelectAllTakenSeats") ?? new TakenSeatsList();
+            }
+            catch { return new TakenSeatsList(); }
+        }
+
+        public async Task<List<int>> GetTakenSeatsByScreening(int movieId, int hallId)
+        {
+            try
+            {
+                // This calls the specific route: api/TakenSeats/SelectByScreening/{movieId}/{hallId}
+                return await client.GetFromJsonAsync<List<int>>($"api/TakenSeats/SelectByScreening/{movieId}/{hallId}") ?? new List<int>();
+            }
+            catch { return new List<int>(); }
+        }
+
+        public async Task<int> InsertTakenSeat(TakenSeat ts)
+        {
+            var res = await client.PostAsJsonAsync("api/TakenSeats/InsertTakenSeat", ts);
+            return res.IsSuccessStatusCode ? 1 : 0;
+        }
+
+        public async Task<int> DeleteTakenSeat(int id)
+        {
+            var res = await client.DeleteAsync($"api/TakenSeats/DeleteTakenSeat/{id}");
+            return res.IsSuccessStatusCode ? 1 : 0;
+        }
         #endregion
 
         #region THEATER
@@ -167,7 +218,7 @@ namespace MoviesInterface
         public async Task<int> DeleteTheater(Theater theater) => (await client.DeleteAsync($"api/Theater/DeleteTheater/{theater.Id}")).IsSuccessStatusCode ? 1 : 0;
         #endregion
 
-        #region USER
+        #region USER    
         public async Task<UserList> GetAllUsers() => await client.GetFromJsonAsync<UserList>("api/User/SelectAllUsers") ?? new UserList();
         public async Task<User?> GetUserById(int id) => await client.GetFromJsonAsync<User>($"api/User/SelectByIdxUser/{id}");
         public async Task<int> InsertUser(User user) => (await client.PostAsJsonAsync("api/User/InsertUser", user)).IsSuccessStatusCode ? 1 : 0;

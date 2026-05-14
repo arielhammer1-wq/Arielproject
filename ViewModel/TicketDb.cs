@@ -1,5 +1,6 @@
 ﻿using Model;
 using System;
+using System.Collections.Generic;
 using System.Data.OleDb;
 
 namespace ViewModel
@@ -12,7 +13,10 @@ namespace ViewModel
             return new TicketList(base.Select());
         }
 
-        protected override BaseEntity NewEntity() => new Ticket();
+        protected override BaseEntity NewEntity()
+        {
+            return new Ticket();
+        }
 
         protected override BaseEntity CreateModel(BaseEntity entity)
         {
@@ -27,7 +31,6 @@ namespace ViewModel
             int theaterId = Convert.ToInt32(reader["TheaterId"]);
             int hallId = Convert.ToInt32(reader["HallId"]);
 
-            // Load related entities
             t.User = UserDB.SelectById(userId);
             t.Movie = MovieDB.SelectById(movieId);
             t.Theater = TheaterDB.SelectById(theaterId);
@@ -39,77 +42,83 @@ namespace ViewModel
         protected override void CreateInsertSQL(BaseEntity entity, OleDbCommand cmd)
         {
             Ticket t = entity as Ticket;
+            if (t != null)
+            {
+                cmd.CommandText =
+                    "INSERT INTO Tickets (SeatNumber, TicketPrice, UserId, MovieId, TheaterId, HallId) " +
+                    "VALUES (@seat, @price, @user, @movie, @theater, @hall)";
 
-            cmd.CommandText = @"
-                INSERT INTO Tickets
-                (SeatNumber, TicketPrice, UserId, MovieId, TheaterId, HallId)
-                VALUES
-                (@seat, @price, @user, @movie, @theater, @hall)";
-
-            cmd.Parameters.AddWithValue("@seat", t.SeatNumber);
-            cmd.Parameters.AddWithValue("@price", t.TicketPrice);
-            cmd.Parameters.AddWithValue("@user", t.User.Id);
-            cmd.Parameters.AddWithValue("@movie", t.Movie.Id);
-            cmd.Parameters.AddWithValue("@theater", t.Theater.Id);
-            cmd.Parameters.AddWithValue("@hall", t.Hall.Id);
+                cmd.Parameters.Add(new OleDbParameter("@seat", t.SeatNumber));
+                cmd.Parameters.Add(new OleDbParameter("@price", t.TicketPrice));
+                cmd.Parameters.Add(new OleDbParameter("@user", t.User.Id));
+                cmd.Parameters.Add(new OleDbParameter("@movie", t.Movie.Id));
+                cmd.Parameters.Add(new OleDbParameter("@theater", t.Theater.Id));
+                cmd.Parameters.Add(new OleDbParameter("@hall", t.Hall.Id));
+            }
         }
 
         protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
         {
             Ticket t = entity as Ticket;
+            if (t != null)
+            {
+                cmd.CommandText =
+                    "UPDATE Tickets SET SeatNumber=@seat, TicketPrice=@price, UserId=@user, " +
+                    "MovieId=@movie, TheaterId=@theater, HallId=@hall WHERE Id=@id";
 
-            cmd.CommandText = @"
-                UPDATE Tickets SET
-                    SeatNumber=@seat,
-                    TicketPrice=@price,
-                    UserId=@user,
-                    MovieId=@movie,
-                    TheaterId=@theater,
-                    HallId=@hall
-                WHERE Id=@id";
-
-            cmd.Parameters.AddWithValue("@seat", t.SeatNumber);
-            cmd.Parameters.AddWithValue("@price", t.TicketPrice);
-            cmd.Parameters.AddWithValue("@user", t.User.Id);
-            cmd.Parameters.AddWithValue("@movie", t.Movie.Id);
-            cmd.Parameters.AddWithValue("@theater", t.Theater.Id);
-            cmd.Parameters.AddWithValue("@hall", t.Hall.Id);
-            cmd.Parameters.AddWithValue("@id", t.Id);
+                cmd.Parameters.Add(new OleDbParameter("@seat", t.SeatNumber));
+                cmd.Parameters.Add(new OleDbParameter("@price", t.TicketPrice));
+                cmd.Parameters.Add(new OleDbParameter("@user", t.User.Id));
+                cmd.Parameters.Add(new OleDbParameter("@movie", t.Movie.Id));
+                cmd.Parameters.Add(new OleDbParameter("@theater", t.Theater.Id));
+                cmd.Parameters.Add(new OleDbParameter("@hall", t.Hall.Id));
+                cmd.Parameters.Add(new OleDbParameter("@id", t.Id));
+            }
         }
 
         protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
         {
             Ticket t = entity as Ticket;
-
-            cmd.CommandText = "DELETE FROM Tickets WHERE Id=@id";
-            cmd.Parameters.AddWithValue("@id", t.Id);
+            if (t != null)
+            {
+                cmd.CommandText = "DELETE FROM Tickets WHERE Id=@id";
+                cmd.Parameters.Add(new OleDbParameter("@id", t.Id));
+            }
         }
 
         public static Ticket SelectById(int id)
         {
             TicketDB db = new TicketDB();
-            foreach (BaseEntity e in db.SelectAll())
-                if (((Ticket)e).Id == id)
-                    return (Ticket)e;
-
-            return null;
+            TicketList list = db.SelectAll();
+            Ticket t = list.Find(item => item.Id == id);
+            return t;
         }
 
-        public List<int> GetTakenSeats(int movieId, int hallId)
+        public List<int> GetTakenSeats(int movieId, int theaterId, int hallId)
         {
             List<int> takenSeats = new List<int>();
 
-            // We filter the Tickets table by the specific movie and hall
-            command.CommandText = $"SELECT SeatNumber FROM Tickets WHERE MovieId = {movieId} AND HallId = {hallId}";
+            command.Parameters.Clear();
+
+            command.CommandText =
+                "SELECT SeatNumber FROM Tickets " +
+                "WHERE MovieId=@movieId AND TheaterId=@theaterId AND HallId=@hallId";
+
+            command.Parameters.Add(new OleDbParameter("@movieId", movieId));
+            command.Parameters.Add(new OleDbParameter("@theaterId", theaterId));
+            command.Parameters.Add(new OleDbParameter("@hallId", hallId));
 
             try
             {
                 connection.Open();
+
                 OleDbDataReader reader = command.ExecuteReader();
+
                 while (reader.Read())
                 {
                     takenSeats.Add(Convert.ToInt32(reader["SeatNumber"]));
                 }
+
                 reader.Close();
             }
             catch (Exception ex)
@@ -118,7 +127,8 @@ namespace ViewModel
             }
             finally
             {
-                connection.Close();
+                if (connection.State == System.Data.ConnectionState.Open)
+                    connection.Close();
             }
 
             return takenSeats;
